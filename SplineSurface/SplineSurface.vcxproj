@@ -155,6 +155,7 @@
     <ClCompile Include="Bezier.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Courbe.cpp" />
+    <ClCompile Include="Destructor.cpp" />
     <ClCompile Include="EsgiShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWidget.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Bezier.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Courbe.h" />
+    <ClInclude Include="Destructor.h" />
     <ClInclude Include="EsgiShader.h" />
     <ClInclude Include="EsgiTimer.h" />
     <ClInclude Include="MainWidget.h" />

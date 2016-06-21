@@ -17,7 +17,6 @@
 #include "Mat4x4.h"
 #include <tiny_obj_loader.h>
 #include <time.h>
-#include "typedefs.h"
 
 
 struct Particle
@@ -155,7 +154,6 @@ protected:
 	uint32_t nbParticules;
 
 	GLuint randomTex;
-	DT3 triangulation;
 
 public:
 	// transform
@@ -185,7 +183,7 @@ public:
 
 	void reload();
 	void reloadEBO();
-
+	void Objet::loadVerticesAndIndices(const std::vector<unsigned int>& indices, const std::vector<float>& positions);
 	void Objet::LoadByDatas(const std::vector<unsigned int>& indices, const std::vector<float>& positions, const std::vector<float>& normals, const std::vector<float>& texcoords, std::string& file, std::vector<tinyobj::material_t>& materials, bool noNormal);
 
 	void render2(GLuint& program, GLuint shadowText, bool wireframe);
@@ -221,9 +219,6 @@ public:
 	}
 
 
-	void Objet::generatePoints(float x, float y, float z, int maxDist, int nbPoints);
-	void Objet::generateTriangulation3D();
-	std::vector<Point_3> pts3D;
 
 };
 

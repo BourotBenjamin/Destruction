@@ -9,77 +9,6 @@
 
 float maxZ = 400.f;
 
-void Objet::generateTriangulation3D()
-{
-	triangulation.insert(pts3D.begin(), pts3D.end());
-	if (triangulation.is_valid())
-	{
-		int i = 0;
-		auto face = triangulation.finite_cells_begin();
-		while (face != triangulation.finite_cells_end())
-		{
-			vboPos.push_back(face->vertex(0)->point().x());
-			vboPos.push_back(face->vertex(0)->point().y());
-			vboPos.push_back(face->vertex(0)->point().z());
-			vboPos.push_back((face->vertex(0)->point().z() + maxZ) / (maxZ * 2.0f));
-			vboPos.push_back(1.0f);
-			vboPos.push_back(1.0f);
-			vboPos.push_back(face->vertex(1)->point().x());
-			vboPos.push_back(face->vertex(1)->point().y());
-			vboPos.push_back(face->vertex(1)->point().z());
-			vboPos.push_back((face->vertex(1)->point().z() + maxZ) / (maxZ * 2.0f));
-			vboPos.push_back(1.0f);
-			vboPos.push_back(1.0f);
-			vboPos.push_back(face->vertex(2)->point().x());
-			vboPos.push_back(face->vertex(2)->point().y());
-			vboPos.push_back(face->vertex(2)->point().z());
-			vboPos.push_back((face->vertex(2)->point().z() + maxZ) / (maxZ * 2.0f));
-			vboPos.push_back(1.0f);
-			vboPos.push_back(1.0f);
-			eboIndices.push_back(i * 3);
-			eboIndices.push_back(i * 3 + 1);
-			eboIndices.push_back(i * 3 + 2);
-			++i;
-			++face;
-		}
-
-		reload();
-		const std::vector<float> normals, texcoords;
-		std::vector<tinyobj::material_t> materials;
-		LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-	}
-	else
-		std::cout << "Invalid" << std::endl;
-}
-
-float getRandomCoords(int maxDist, float middle)
-{
-	int dist = maxDist / 10;
-	while (dist <= maxDist)
-	{
-		if (rand() % 3 > 1)
-			return rand() % (dist * 2) + middle - dist;
-		dist *= 1.5;
-	}
-	return rand() % (dist * 2) + middle - dist;
-}
-
-void Objet::generatePoints(float x, float y, float z, int maxDist, int nbPoints)
-{
-	int i = 0;
-	float x2, y2, z2;
-	bool ok;
-	maxZ = maxDist * 1.0f;
-	while (i < nbPoints)
-	{
-		++i;
-		x2 = getRandomCoords(maxDist, x);
-		y2 = getRandomCoords(maxDist, y);
-		z2 = getRandomCoords(maxDist, z);
-		pts3D.push_back(Point_3(x2, y2, z2));
-	}
-}
-
 
 void setupFeedback(GLuint program)
 {
@@ -1067,6 +996,18 @@ void Objet::LoadFromObj(std::string file, bool noNormal)
 	const std::vector<float>& texcoords = shapes[0].mesh.texcoords;
 
 	LoadByDatas(indices, positions, normals, texcoords, file, materials, noNormal);
+}
+
+void Objet::loadVerticesAndIndices(const std::vector<unsigned int>& indices, const std::vector<float>& positions)
+{
+	for each (float pos in positions)
+	{
+		vboPos.push_back(pos);
+	}
+	for each (float indice in indices)
+	{
+		eboIndices.push_back(indice);
+	}
 }
 
 void Objet::LoadByDatas(const std::vector<unsigned int>& indices, const std::vector<float>& positions, const std::vector<float>& normals, const std::vector<float>& texcoords, std::string& file, std::vector<tinyobj::material_t>& materials, bool noNormal)

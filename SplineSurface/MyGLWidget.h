@@ -15,6 +15,7 @@
 #include "Quaternion.h"
 #include "EsgiTimer.h"
 #include "EsgiShader.h"
+#include "Destructor.h"
 
 const GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
@@ -22,6 +23,9 @@ class MyGLWidget : public QGLWidget
 {
 	//Q_OBJECT
 protected:
+	Destructor destructor;
+	std::vector<std::shared_ptr<Objet>> destruction;
+
 	std::vector<std::shared_ptr<Courbe>> listCourbes;
 	std::vector<std::shared_ptr<Surface>> listSurface;
 

@@ -3,6 +3,8 @@
 #include "MyGLWidget.h"
 #include <QtGui\qevent.h>
 
+float MAX_DIST = 10.0;
+int NB_POINTS = 25;
 
 
 void MyGLWidget::initializeGL()
@@ -11,8 +13,8 @@ void MyGLWidget::initializeGL()
 	setMinimumSize(800, 800);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);
+	/*glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);*/
 
 	setMouseTracking(true);
 	projection.Perspective(45.f, width(), height(), 0.1f, 1000.f);
@@ -564,6 +566,10 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	floor->render2(program, shadowTex, wireframe);
 	wall3->render2(program, shadowTex, wireframe);
 	wall2->render2(program, shadowTex, wireframe);
+	for each (auto &piece in destruction)
+	{
+		piece->render2(program, shadowTex, wireframe);
+	}
 }
 
 void MyGLWidget::mousePressEvent(QMouseEvent * e)
@@ -640,16 +646,17 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 			break;
 
 		}*/
-		float MAX_DIST = 200;
-		int NB_POINTS = 25;
-		Objet o;
 		float x = (e->x() / (width() / 2.0) - 1)* -ortho;
 		float y = (e->y() / (height() / 2.0) - 1)* -ortho * 2;
-		o.generatePoints(x, y, 0.0f, MAX_DIST, NB_POINTS);
-		o.generateTriangulation3D();
-
+		destructor.generatePoints(x, y, 0.0f, MAX_DIST, NB_POINTS);
+		auto currentDestruction = destructor.generateTriangulation3D();
+		for each (std::shared_ptr<Objet> tetra in currentDestruction)
+		{
+			destruction.push_back(tetra);
+		}
 	}
 }
+
 
 void MyGLWidget::mouseMoveEvent(QMouseEvent * e)
 {
