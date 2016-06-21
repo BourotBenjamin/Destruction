@@ -1,0 +1,82 @@
+﻿La génération a démarré 21/06/2016 09:06:51.
+     1>Projet "C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\SplineSurface.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\glew\include /IC:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\qt\include /IC:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\tinyobjloader /IC:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\stb /IC:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\glm /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt Objet.cpp
+         Objet.cpp
+     1>C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\include\CGAL/IO/io.h(153): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(304) : voir la déclaration de 'sscanf'
+     1>c:\users\philoupe\desktop\projetmathqtopenglsubdivision\projetmathqtopenglsubdivision\projetmathqtopengl\splinesurface\Quaternion.h(173): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+     1>c:\users\philoupe\desktop\projetmathqtopenglsubdivision\projetmathqtopenglsubdivision\projetmathqtopengl\splinesurface\Quaternion.h(174): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+     1>c:\users\philoupe\desktop\projetmathqtopenglsubdivision\projetmathqtopenglsubdivision\projetmathqtopengl\splinesurface\Quaternion.h(193): warning C4305: '=' : troncation de 'double' à 'float'
+     1>c:\users\philoupe\desktop\projetmathqtopenglsubdivision\projetmathqtopenglsubdivision\projetmathqtopengl\splinesurface\Quaternion.h(199): warning C4305: '=' : troncation de 'double' à 'float'
+     1>c:\users\philoupe\desktop\projetmathqtopenglsubdivision\projetmathqtopenglsubdivision\projetmathqtopengl\splinesurface\Quaternion.h(223): warning C4305: 'argument' : troncation de 'double' à 'float'
+     1>Objet.cpp(21): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(22): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(23): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(24): warning C4244: 'argument' : conversion de 'const double' en 'float', perte possible de données
+     1>Objet.cpp(27): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(28): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(29): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(30): warning C4244: 'argument' : conversion de 'const double' en 'float', perte possible de données
+     1>Objet.cpp(33): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(34): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(35): warning C4244: 'argument' : conversion de 'const double' en 'const float', perte possible de données
+     1>Objet.cpp(36): warning C4244: 'argument' : conversion de 'const double' en 'float', perte possible de données
+     1>Objet.cpp(62): warning C4244: '*=' : conversion de 'double' en 'int', perte possible de données
+     1>Objet.cpp(71): warning C4101: 'ok' : variable locale non référencée
+     1>Objet.cpp(114): warning C4018: '<' : incompatibilité signed/unsigned
+     1>Objet.cpp(227): warning C4018: '<' : incompatibilité signed/unsigned
+     1>Objet.cpp(660): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+     1>Objet.cpp(675): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+     1>Objet.cpp(683): warning C4244: 'argument' : conversion de 'unsigned __int64' en 'const float', perte possible de données
+     1>Objet.cpp(690): warning C4244: 'argument' : conversion de 'unsigned __int64' en 'const float', perte possible de données
+     1>Objet.cpp(696): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+     1>Objet.cpp(700): warning C4244: 'argument' : conversion de 'int' en 'const float', perte possible de données
+     1>Objet.cpp(702): warning C4244: 'argument' : conversion de 'int' en 'const float', perte possible de données
+     1>Objet.cpp(716): warning C4101: 'currentAngle' : variable locale non référencée
+     1>Objet.cpp(715): warning C4101: 'currentVerticeIndice' : variable locale non référencée
+     1>Objet.cpp(807): warning C4244: 'initialisation' : conversion de 'unsigned __int64' en 'float', perte possible de données
+     1>Objet.cpp(815): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+     1>Objet.cpp(883): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+     1>Objet.cpp(891): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+     1>Objet.cpp(892): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+     1>Objet.cpp(907): warning C4267: '=' : conversion de 'size_t' en 'int', perte possible de données
+     1>Objet.cpp(915): warning C4267: 'initialisation' : conversion de 'size_t' en 'int', perte possible de données
+     1>Objet.cpp(916): warning C4267: '=' : conversion de 'size_t' en 'int', perte possible de données
+     1>Objet.cpp(920): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+     1>Objet.cpp(1004): warning C4267: '=' : conversion de 'size_t' en 'GLuint', perte possible de données
+     1>Objet.cpp(1098): warning C4267: '=' : conversion de 'size_t' en 'GLuint', perte possible de données
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xutility(2715): warning C4996: 'std::_Fill_n': Function call with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xutility(2701) : voir la déclaration de 'std::_Fill_n'
+                 C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\include\boost/random/detail/polynomial.hpp(114) : voir la référence à l'instanciation de la fonction modèle '_OutIt std::fill_n<boost::random::detail::polynomial_ops::digit_t*,size_t,boost::random::detail::polynomial_ops::digit_t>(_OutIt,_Diff,const _Ty &)' en cours de compilation
+                 with
+                 [
+                     _OutIt=boost::random::detail::polynomial_ops::digit_t *
+         ,            _Diff=size_t
+         ,            _Ty=boost::random::detail::polynomial_ops::digit_t
+                 ]
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\x64\Debug\SplineSurface.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\glew\lib\Release\x64 /LIBPATH:C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\\..\Libs\qt\lib "libgmp-10.lib" opengl32.lib glew32s.lib Qt5Widgets.lib Qt5Core.lib Qt5Gui.lib Qt5OpenGL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\x64\Debug\SplineSurface.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\x64\Debug\SplineSurface.lib" /MACHINE:X64 x64\Debug\tiny_obj_loader.obj
+         x64\Debug\Bezier.obj
+         x64\Debug\Camera.obj
+         x64\Debug\Courbe.obj
+         x64\Debug\EsgiShader.obj
+         x64\Debug\main.obj
+         x64\Debug\MainWidget.obj
+         x64\Debug\Mat4x4.obj
+         x64\Debug\MyGLWidget.obj
+         x64\Debug\Objet.obj
+         x64\Debug\PatchCoons.obj
+         x64\Debug\Point.obj
+         x64\Debug\Shader.obj
+         x64\Debug\Spline.obj
+         x64\Debug\Surface.obj
+         x64\Debug\SurfaceBezier.obj
+         x64\Debug\SurfaceFromSpline.obj
+         x64\Debug\SurfaceSimpleExtrude.obj
+         SplineSurface.vcxproj -> C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\x64\Debug\SplineSurface.exe
+     1>Génération du projet "C:\Users\Philoupe\Desktop\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGLSubdivision\ProjetMathQtOpenGL\SplineSurface\SplineSurface.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:14.29
