@@ -9,12 +9,17 @@ int NB_POINTS = 25;
 
 void MyGLWidget::initializeGL()
 {
-	glewInit();
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+	}
 	setMinimumSize(800, 800);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	/*glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);*/
+	cube = std::shared_ptr<Objet>(new Objet());
 
 	setMouseTracking(true);
 	projection.Perspective(45.f, width(), height(), 0.1f, 1000.f);
@@ -568,7 +573,8 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	wall2->render2(program, shadowTex, wireframe);
 	for each (auto &piece in destruction)
 	{
-		piece->render2(program, shadowTex, wireframe);
+		if (piece->alive)
+			piece->render2(program, shadowTex, wireframe);
 	}
 }
 
@@ -646,10 +652,21 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 			break;
 
 		}*/
-		float x = (e->x() / (width() / 2.0) - 1)* -ortho;
-		float y = (e->y() / (height() / 2.0) - 1)* -ortho * 2;
-		destructor.generatePoints(x, y, 0.0f, MAX_DIST, NB_POINTS);
-		auto currentDestruction = destructor.generateTriangulation3D();
+
+		Polyhedron_3 baseObject;
+		K::Point_3 p1(-100.0f, -100.0f, -100.0f), 
+				p2(100.0f, -100.0f, -100.0f), 
+				p3(-1.0f, 1.0f, -1.0f), 
+				p4(100.0f, 100.0f, -100.0f),
+				p5(-1.0f, -1.0f, 1.0f), 
+				p6(100.0f, -100.0f, 100.0f), 
+				p7(-1.0f, 1.0f, 1.0f), 
+				p8(1.0f, 1.0f, 1.0f);
+
+		baseObject.make_tetrahedron(p1, p2, p4, p6);		
+
+		destructor.generatePoints(-100.0f, -100.0f, -100.0f, MAX_DIST, NB_POINTS);
+		auto currentDestruction = destructor.generateTriangulation3D(cube, baseObject);
 		for each (std::shared_ptr<Objet> tetra in currentDestruction)
 		{
 			destruction.push_back(tetra);

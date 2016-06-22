@@ -2,7 +2,7 @@
 
 
 
-std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D()
+std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::shared_ptr<Objet> baseObject, Polyhedron_3& baseObjectPoly)
 {
 	std::vector<std::shared_ptr<Objet>> objets;
 	triangulation.insert(pts3D.begin(), pts3D.end());
@@ -10,53 +10,99 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D()
 	{
 		int i = 0;
 
+		std::vector<float> vboPos;
+		std::vector<unsigned int> eboIndices;
+
+		Polyhedron_3 triangulationPoly;
+		CGAL::convex_hull_3_to_polyhedron_3(triangulation, triangulationPoly);
+		Nef_polyhedron triangulationNef(triangulationPoly);
+		Nef_polyhedron baseObjectNef(baseObjectPoly);
+		Nef_polyhedron singlePieceNef;
+		
+		Polyhedron_3 polyTetra;
 		auto tetra = triangulation.finite_cells_begin();
 		while (tetra != triangulation.finite_cells_end())
 		{
+			singlePieceNef.clear();
+			polyTetra.clear();
+			polyTetra.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
+			singlePieceNef = Nef_polyhedron(polyTetra);
+			singlePieceNef = singlePieceNef - (singlePieceNef - baseObjectNef);
+			if (singlePieceNef.is_simple())
+				singlePieceNef.convert_to_Polyhedron(polyTetra);
+			else
+				std::cout << "Not Simple" << std::endl;
+
+			int indice = 0;
 			Objet* o = new Objet();
-			std::vector<float> vboPos;
-			std::vector<unsigned int> eboIndices;
+			o->alive = false;
 
-			vboPos.push_back(tetra->vertex(0)->point().x());
-			vboPos.push_back(tetra->vertex(0)->point().y());
-			vboPos.push_back(tetra->vertex(0)->point().z());
-			vboPos.push_back(tetra->vertex(1)->point().x());
-			vboPos.push_back(tetra->vertex(1)->point().y());
-			vboPos.push_back(tetra->vertex(1)->point().z());
-			vboPos.push_back(tetra->vertex(2)->point().x());
-			vboPos.push_back(tetra->vertex(2)->point().y());
-			vboPos.push_back(tetra->vertex(2)->point().z());
-			vboPos.push_back(tetra->vertex(3)->point().x());
-			vboPos.push_back(tetra->vertex(3)->point().y());
-			vboPos.push_back(tetra->vertex(3)->point().z());
-
-			eboIndices.push_back(0);
-			eboIndices.push_back(1);
-			eboIndices.push_back(2);
-
-			eboIndices.push_back(0);
-			eboIndices.push_back(1);
-			eboIndices.push_back(3);
-
-			eboIndices.push_back(0);
-			eboIndices.push_back(2);
-			eboIndices.push_back(3);
-
-			eboIndices.push_back(1);
-			eboIndices.push_back(2);
-			eboIndices.push_back(3);
+			auto facet = polyTetra.facets_begin();
+			while (facet != polyTetra.facets_end())
+			{
+				o->alive = true;
+				auto vertice = facet->facet_begin();
+				for (int i = 0; i < 3; i++, vertice++)
+				{
+					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
+					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
+					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+					eboIndices.push_back(indice);
+					++indice;
+				}
+				++facet;
+			}
 
 			++tetra;
-			o->loadVerticesAndIndices(eboIndices, vboPos);
-			o->reload();
+			if (o->alive)
+			{
+				o->loadVerticesAndIndices(eboIndices, vboPos);
+				o->reload();
+				const std::vector<float> normals, texcoords;
+				std::vector<tinyobj::material_t> materials;
+				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+				objets.push_back(std::shared_ptr<Objet>(o));
+			}
+			vboPos.clear();
+			eboIndices.clear();
+		}
+		baseObjectNef -= triangulationNef;
+
+		int indice = 0;
+		baseObject->alive = false;
+		baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
+		auto facet = baseObjectPoly.facets_begin();
+		while (facet != baseObjectPoly.facets_end())
+		{
+			baseObject->alive = true;
+			auto vertice = facet->facet_begin();
+			for (int i = 0; i < 3; i++, vertice++)
+			{
+				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
+				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
+				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+				eboIndices.push_back(indice);
+				++indice;
+			}
+			++facet;
+		}
+		if (baseObject->alive)
+		{
+			baseObject->loadVerticesAndIndices(eboIndices, vboPos);
+			baseObject->reload();
 			const std::vector<float> normals, texcoords;
 			std::vector<tinyobj::material_t> materials;
-			o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-			objets.push_back(std::shared_ptr<Objet>(o));
+			baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+			objets.push_back(baseObject);
 		}
+		vboPos.clear();
+		eboIndices.clear();
 	}
 	else
 		std::cout << "Invalid" << std::endl;
+
+
+
 	pts3D.clear();
 	triangulation.clear();
 	return objets;
@@ -95,7 +141,7 @@ void Destructor::generatePoints(float x, float y, float z, int maxDist, int nbPo
 		x2 = getRandomCoords(maxDist * 1000, x * 1000);
 		y2 = getRandomCoords(maxDist * 1000, y * 1000);
 		z2 = getRandomCoords(maxDist * 1000, z * 1000);
-		pts3D.push_back(Point_3(x2 / 1000.0f, y2 / 1000.0f, z2 / 1000.0f));
+		pts3D.push_back(K::Point_3(x2 / 1000.0f, y2 / 1000.0f, z2 / 1000.0f));
 	}
 }
 

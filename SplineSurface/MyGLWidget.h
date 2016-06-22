@@ -23,6 +23,7 @@ class MyGLWidget : public QGLWidget
 {
 	//Q_OBJECT
 protected:
+	std::shared_ptr<Objet> cube;
 	Destructor destructor;
 	std::vector<std::shared_ptr<Objet>> destruction;
 

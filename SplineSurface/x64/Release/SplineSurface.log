@@ -1,0 +1,45 @@
+﻿La génération a démarré 22/06/2016 17:40:17.
+     1>Projet "C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\SplineSurface.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\glew\include /IC:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\qt\include /IC:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\tinyobjloader /IC:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\stb /IC:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\glm /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc120.pdb" /Gd /TP /errorReport:prompt /bigobj MyGLWidget.cpp
+         MyGLWidget.cpp
+     1>c:\users\philoupe\dropbox\workspace\c++\destruction\splinesurface\Courbe.h(79): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+     1>c:\users\philoupe\dropbox\workspace\c++\destruction\splinesurface\Surface.h(71): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+     1>c:\users\philoupe\dropbox\workspace\c++\destruction\splinesurface\Quaternion.h(193): warning C4305: '=' : troncation de 'double' à 'float'
+     1>c:\users\philoupe\dropbox\workspace\c++\destruction\splinesurface\Quaternion.h(199): warning C4305: '=' : troncation de 'double' à 'float'
+     1>c:\users\philoupe\dropbox\workspace\c++\destruction\splinesurface\Quaternion.h(223): warning C4305: 'argument' : troncation de 'double' à 'float'
+     1>C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\include\CGAL/IO/io.h(153): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(304) : voir la déclaration de 'sscanf'
+     1>MyGLWidget.cpp(397): warning C4305: 'argument' : troncation de 'double' à 'float'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\x64\Release\SplineSurface.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\glew\lib\Release\x64 /LIBPATH:C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\\..\Libs\qt\lib "libgmp-10.lib" "libmpfr-4.lib" opengl32.lib glew32s.lib Qt5Widgets.lib Qt5Core.lib Qt5Gui.lib Qt5OpenGL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\x64\Release\SplineSurface.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\x64\Release\SplineSurface.lib" /MACHINE:X64 /nodefaultlib:libcmt.lib x64\Release\tiny_obj_loader.obj
+         x64\Release\Bezier.obj
+         x64\Release\Camera.obj
+         x64\Release\Courbe.obj
+         x64\Release\Destructor.obj
+         x64\Release\EsgiShader.obj
+         x64\Release\main.obj
+         x64\Release\MainWidget.obj
+         x64\Release\Mat4x4.obj
+         x64\Release\MyGLWidget.obj
+         x64\Release\Objet.obj
+         x64\Release\PatchCoons.obj
+         x64\Release\Point.obj
+         x64\Release\Shader.obj
+         x64\Release\Spline.obj
+         x64\Release\Surface.obj
+         x64\Release\SurfaceBezier.obj
+         x64\Release\SurfaceFromSpline.obj
+         x64\Release\SurfaceSimpleExtrude.obj
+         Génération de code en cours
+         Fin de la génération du code
+     1>Shader.obj : warning LNK4049: symbole défini localement __glewIsProgram importé
+     1>Shader.obj : warning LNK4049: symbole défini localement __glewIsShader importé
+     1>Shader.obj : warning LNK4049: symbole défini localement __glewValidateProgram importé
+     1>glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' n'a pu être trouvé avec 'glew32s.lib(glew.obj)' ou sur 'C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\x64\Release\vc120.pdb' ; l'objet sera lié sans informations de débogage
+         SplineSurface.vcxproj -> C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\x64\Release\SplineSurface.exe
+     1>Génération du projet "C:\Users\Philoupe\Dropbox\workspace\C++\Destruction\SplineSurface\SplineSurface.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:01:00.08

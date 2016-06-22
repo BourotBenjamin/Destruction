@@ -9,8 +9,8 @@ public:
 	Destructor();
 	DT3 triangulation;
 	void generatePoints(float x, float y, float z, int maxDist, int nbPoints);
-	std::vector<std::shared_ptr<Objet>> generateTriangulation3D();
-	std::vector<Point_3> pts3D;
+	std::vector<std::shared_ptr<Objet>> generateTriangulation3D(std::shared_ptr<Objet> baseObject, Polyhedron_3& baseObjectPoly);
+	std::vector<K::Point_3> pts3D;
 	~Destructor();
 };
 

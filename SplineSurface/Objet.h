@@ -105,11 +105,11 @@ protected:
 	
 	Mat4x4 worldMatrix;
 	// mesh
-	GLuint VBO;
-	GLuint EBO;
+	GLuint VBO = 0;
+	GLuint EBO = 0;
 	GLuint ElementCount;
 	GLenum PrimitiveType;
-	GLuint VAO;
+	GLuint VAO = 0;
 	// material
 	GLuint textureObj;
 	GLuint specularObj;
@@ -217,7 +217,7 @@ public:
 		float Max = RAND_MAX;
 		return ((float)rand() / Max);
 	}
-
+	bool alive = true;
 
 
 };
