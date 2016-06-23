@@ -1,0 +1,109 @@
+﻿La génération a démarré 22/06/2016 17:16:24.
+     1>Projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\SimulationController.vcxproj" sur le nœud 3 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./../../PhysXGpu/include /I./../../../Include/foundation /I./../../foundation/include /I./../../../Include/physxprofilesdk /I./../../../Include/physxvisualdebuggersdk /I./../../../Include/common /I./../../../Include/geometry /I./../../../Include/pvd /I./../../../Include/particles /I./../../../Include/cloth /I./../../../Include/pxtask /I./../../../Include /I./../../Common/src /I./../../Common/src/windows /I./../../GeomUtils/headers /I./../../GeomUtils/src /I./../../GeomUtils/src/contact /I./../../GeomUtils/src/common /I./../../GeomUtils/src/convex /I./../../GeomUtils/src/distance /I./../../GeomUtils/src/sweep /I./../../GeomUtils/src/gjk /I./../../GeomUtils/src/intersection /I./../../GeomUtils/src/mesh /I./../../GeomUtils/src/hf /I./../../GeomUtils/src/pcm /I./../../PvdRuntime/src /I./../../SimulationController/include /I./../../SimulationController/src /I./../../SimulationController/src/particles /I./../../SimulationController/src/framework /I./../../SimulationController/src/cloth /I./../../LowLevel/windows/include /I./../../LowLevel/API/include /I./../../LowLevel/software/include /I./../../LowLevel/common/include/math /I./../../LowLevel/common/include/utils /I./../../LowLevel/common/include/collision /I./../../LowLevel/common/include/pipeline /I./../../LowLevelCloth/include /I./../../../externals/nvToolsExt/1/include /I./../../../externals/nvToolsExt/1/include/stdint /Zi /nologo /W4 /WX /Od /D WIN32 /D WIN64 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D _WINSOCK_DEPRECATED_NO_WARNINGS /D PX_PHYSX_STATIC_LIB /D _DEBUG /D PX_DEBUG /D PX_CHECKED /D PX_SUPPORT_VISUAL_DEBUGGER /D PX_NVTX /GF /Gm- /RTCu /MTd /GS- /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"./x64/SimulationController/debug\\" /Fd"D:\GIT\Destruction\Libs\PhysXSDK\Lib\vc12win64\\SimulationControllerDEBUG.pdb" /Gd /TP /errorReport:prompt /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /d2Zi+ ..\..\SimulationController\src\particles\ScParticleBodyInteraction.cpp ..\..\SimulationController\src\particles\ScParticlePacketShape.cpp ..\..\SimulationController\src\particles\ScParticleSystemCore.cpp ..\..\SimulationController\src\particles\ScParticleSystemSim.cpp ..\..\SimulationController\src\framework\ScActor.cpp ..\..\SimulationController\src\framework\ScElement.cpp ..\..\SimulationController\src\framework\ScInteraction.cpp ..\..\SimulationController\src\framework\ScInteractionScene.cpp ..\..\SimulationController\src\cloth\ScClothCore.cpp ..\..\SimulationController\src\cloth\ScClothFabricCore.cpp ..\..\SimulationController\src\cloth\ScClothShape.cpp ..\..\SimulationController\src\cloth\ScClothSim.cpp ..\..\SimulationController\src\ScActorCore.cpp ..\..\SimulationController\src\ScActorInteraction.cpp ..\..\SimulationController\src\ScActorPair.cpp ..\..\SimulationController\src\ScActorSim.cpp ..\..\SimulationController\src\ScArticulationCore.cpp ..\..\SimulationController\src\ScArticulationJointCore.cpp ..\..\SimulationController\src\ScArticulationJointSim.cpp ..\..\SimulationController\src\ScArticulationSim.cpp ..\..\SimulationController\src\ScBodyCore.cpp ..\..\SimulationController\src\ScBodyCoreKinematic.cpp ..\..\SimulationController\src\ScBodySim.cpp ..\..\SimulationController\src\ScConstraintCore.cpp ..\..\SimulationController\src\ScConstraintGroupNode.cpp ..\..\SimulationController\src\ScConstraintInteraction.cpp ..\..\SimulationController\src\ScConstraintProjectionManager.cpp ..\..\SimulationController\src\ScConstraintProjectionTree.cpp ..\..\SimulationController\src\ScConstraintSim.cpp ..\..\SimulationController\src\ScCoreInteraction.cpp ..\..\SimulationController\src\ScElementActorInteraction.cpp ..\..\SimulationController\src\ScElementInteractionMarker.cpp ..\..\SimulationController\src\ScElementSim.cpp ..\..\SimulationController\src\ScElementSimInteraction.cpp ..\..\SimulationController\src\ScMaterialCore.cpp ..\..\SimulationController\src\ScMetaData.cpp ..\..\SimulationController\src\ScNPhaseCore.cpp ..\..\SimulationController\src\ScPhysics.cpp ..\..\SimulationController\src\ScRigidCore.cpp ..\..\SimulationController\src\ScRigidSim.cpp ..\..\SimulationController\src\ScScene.cpp ..\..\SimulationController\src\ScShapeCore.cpp ..\..\SimulationController\src\ScShapeInstancePairLL.cpp ..\..\SimulationController\src\ScShapeIterator.cpp ..\..\SimulationController\src\ScShapeSim.cpp ..\..\SimulationController\src\ScSimStats.cpp ..\..\SimulationController\src\ScStaticCore.cpp ..\..\SimulationController\src\ScStaticSim.cpp ..\..\SimulationController\src\ScTriggerInteraction.cpp
+         ScParticleBodyInteraction.cpp
+         ScParticlePacketShape.cpp
+         ScParticleSystemCore.cpp
+         ScParticleSystemSim.cpp
+         ScActor.cpp
+         ScElement.cpp
+         ScInteraction.cpp
+         ScInteractionScene.cpp
+         ScClothCore.cpp
+         ScClothFabricCore.cpp
+         ScClothShape.cpp
+         ScClothSim.cpp
+         ScActorCore.cpp
+         ScActorInteraction.cpp
+         ScActorPair.cpp
+         ScActorSim.cpp
+         ScArticulationCore.cpp
+         ScArticulationJointCore.cpp
+         ScArticulationJointSim.cpp
+         ScArticulationSim.cpp
+         ScBodyCore.cpp
+         ScBodyCoreKinematic.cpp
+         ScBodySim.cpp
+         ScConstraintCore.cpp
+         ScConstraintGroupNode.cpp
+         ScConstraintInteraction.cpp
+         ScConstraintProjectionManager.cpp
+         ScConstraintProjectionTree.cpp
+         ScConstraintSim.cpp
+         ScCoreInteraction.cpp
+         ScElementActorInteraction.cpp
+         ScElementInteractionMarker.cpp
+         ScElementSim.cpp
+         ScElementSimInteraction.cpp
+         ScMaterialCore.cpp
+         ScMetaData.cpp
+         ScNPhaseCore.cpp
+         ScPhysics.cpp
+         ScRigidCore.cpp
+         ScRigidSim.cpp
+         ScScene.cpp
+         ScShapeCore.cpp
+         ScShapeInstancePairLL.cpp
+         ScShapeIterator.cpp
+         ScShapeSim.cpp
+         ScSimStats.cpp
+         ScStaticCore.cpp
+         ScStaticSim.cpp
+         ScTriggerInteraction.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"./../../../Lib/vc12win64\SimulationControllerDEBUG.lib" /NOLOGO /MACHINE:X64 ./x64/SimulationController/debug\ScParticleBodyInteraction.obj
+         ./x64/SimulationController/debug\ScParticlePacketShape.obj
+         ./x64/SimulationController/debug\ScParticleSystemCore.obj
+         ./x64/SimulationController/debug\ScParticleSystemSim.obj
+         ./x64/SimulationController/debug\ScActor.obj
+         ./x64/SimulationController/debug\ScElement.obj
+         ./x64/SimulationController/debug\ScInteraction.obj
+         ./x64/SimulationController/debug\ScInteractionScene.obj
+         ./x64/SimulationController/debug\ScClothCore.obj
+         ./x64/SimulationController/debug\ScClothFabricCore.obj
+         ./x64/SimulationController/debug\ScClothShape.obj
+         ./x64/SimulationController/debug\ScClothSim.obj
+         ./x64/SimulationController/debug\ScActorCore.obj
+         ./x64/SimulationController/debug\ScActorInteraction.obj
+         ./x64/SimulationController/debug\ScActorPair.obj
+         ./x64/SimulationController/debug\ScActorSim.obj
+         ./x64/SimulationController/debug\ScArticulationCore.obj
+         ./x64/SimulationController/debug\ScArticulationJointCore.obj
+         ./x64/SimulationController/debug\ScArticulationJointSim.obj
+         ./x64/SimulationController/debug\ScArticulationSim.obj
+         ./x64/SimulationController/debug\ScBodyCore.obj
+         ./x64/SimulationController/debug\ScBodyCoreKinematic.obj
+         ./x64/SimulationController/debug\ScBodySim.obj
+         ./x64/SimulationController/debug\ScConstraintCore.obj
+         ./x64/SimulationController/debug\ScConstraintGroupNode.obj
+         ./x64/SimulationController/debug\ScConstraintInteraction.obj
+         ./x64/SimulationController/debug\ScConstraintProjectionManager.obj
+         ./x64/SimulationController/debug\ScConstraintProjectionTree.obj
+         ./x64/SimulationController/debug\ScConstraintSim.obj
+         ./x64/SimulationController/debug\ScCoreInteraction.obj
+         ./x64/SimulationController/debug\ScElementActorInteraction.obj
+         ./x64/SimulationController/debug\ScElementInteractionMarker.obj
+         ./x64/SimulationController/debug\ScElementSim.obj
+         ./x64/SimulationController/debug\ScElementSimInteraction.obj
+         ./x64/SimulationController/debug\ScMaterialCore.obj
+         ./x64/SimulationController/debug\ScMetaData.obj
+         ./x64/SimulationController/debug\ScNPhaseCore.obj
+         ./x64/SimulationController/debug\ScPhysics.obj
+         ./x64/SimulationController/debug\ScRigidCore.obj
+         ./x64/SimulationController/debug\ScRigidSim.obj
+         ./x64/SimulationController/debug\ScScene.obj
+         ./x64/SimulationController/debug\ScShapeCore.obj
+         ./x64/SimulationController/debug\ScShapeInstancePairLL.obj
+         ./x64/SimulationController/debug\ScShapeIterator.obj
+         ./x64/SimulationController/debug\ScShapeSim.obj
+         ./x64/SimulationController/debug\ScSimStats.obj
+         ./x64/SimulationController/debug\ScStaticCore.obj
+         ./x64/SimulationController/debug\ScStaticSim.obj
+         ./x64/SimulationController/debug\ScTriggerInteraction.obj
+         SimulationController.vcxproj -> D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\./../../../Lib/vc12win64\SimulationControllerDEBUG.lib
+     1>Génération du projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\SimulationController.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:45.82

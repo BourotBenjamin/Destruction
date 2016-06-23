@@ -1,0 +1,23 @@
+﻿La génération a démarré 22/06/2016 17:16:24.
+     1>Projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\PhysXVisualDebuggerSDK.vcxproj" sur le nœud 4 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./../../PhysXProfileSDK /I./../../../Include/foundation /I./../../foundation/include /I./../../../Include/physxprofilesdk /I./../../../Include/physxvisualdebuggersdk /I./../../../Include /Zi /nologo /W4 /WX /Od /D WIN32 /D WIN64 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D _WINSOCK_DEPRECATED_NO_WARNINGS /D PX_PHYSX_STATIC_LIB /D _DEBUG /D PX_DEBUG /D PX_CHECKED /D PX_SUPPORT_VISUAL_DEBUGGER /D PX_NVTX /GF /Gm- /RTCu /MTd /GS- /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"./x64/PhysXVisualDebuggerSDK/debug\\" /Fd"D:\GIT\Destruction\Libs\PhysXSDK\Lib\vc12win64\\PhysXVisualDebuggerSDKDEBUG.pdb" /Gd /TP /errorReport:prompt /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /d2Zi+ ..\..\PhysXVisualDebuggerSDK\PvdConnection.cpp ..\..\PhysXVisualDebuggerSDK\PvdConnectionManager.cpp ..\..\PhysXVisualDebuggerSDK\PvdDataStream.cpp ..\..\PhysXVisualDebuggerSDK\PvdNetworkStreams.cpp ..\..\PhysXVisualDebuggerSDK\PvdObjectModelMetaData.cpp ..\..\PhysXVisualDebuggerSDK\PvdUserRenderer.cpp
+         PvdConnection.cpp
+         PvdConnectionManager.cpp
+         PvdDataStream.cpp
+         PvdNetworkStreams.cpp
+         PvdObjectModelMetaData.cpp
+         PvdUserRenderer.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"./../../../Lib/vc12win64\PhysXVisualDebuggerSDKDEBUG.lib" /NOLOGO /MACHINE:X64 ./x64/PhysXVisualDebuggerSDK/debug\PvdConnection.obj
+         ./x64/PhysXVisualDebuggerSDK/debug\PvdConnectionManager.obj
+         ./x64/PhysXVisualDebuggerSDK/debug\PvdDataStream.obj
+         ./x64/PhysXVisualDebuggerSDK/debug\PvdNetworkStreams.obj
+         ./x64/PhysXVisualDebuggerSDK/debug\PvdObjectModelMetaData.obj
+         ./x64/PhysXVisualDebuggerSDK/debug\PvdUserRenderer.obj
+         PhysXVisualDebuggerSDK.vcxproj -> D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\./../../../Lib/vc12win64\PhysXVisualDebuggerSDKDEBUG.lib
+     1>Génération du projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\PhysXVisualDebuggerSDK.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:10.83

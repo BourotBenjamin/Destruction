@@ -1,0 +1,44 @@
+﻿La génération a démarré 22/06/2016 17:16:25.
+     1>Projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\LowLevelCloth.vcxproj" sur le nœud 9 (Build cible(s)).
+     1>CustomBuild:
+         Building ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp
+         Compilateur d'optimisation Microsoft (R) C/C++ version 18.00.21005.1 pour x64
+         Copyright (C) Microsoft Corporation. Tous droits réservés.
+         
+         SwSolveConstraints.cpp
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./../../../Include/foundation /I./../../foundation/include /I./../../../Include/physxprofilesdk /I./../../../Include/physxvisualdebuggersdk /I./../../../Include /I./../../../Include/pxtask /I./../../../Include/common /I./../../Common/src /I./../../LowLevelCloth/include /I./../../LowLevelCloth/src /Zi /nologo /W4 /WX /Od /D WIN32 /D WIN64 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D _WINSOCK_DEPRECATED_NO_WARNINGS /D PX_PHYSX_STATIC_LIB /D _DEBUG /D PX_DEBUG /D PX_CHECKED /D PX_SUPPORT_VISUAL_DEBUGGER /D PX_NVTX /D PX_PHYSX_DLL_NAME_POSTFIX=DEBUG /GF /Gm- /RTCu /MTd /GS- /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"./x64/LowLevelCloth/debug\\" /Fd"D:\GIT\Destruction\Libs\PhysXSDK\Lib\vc12win64\\LowLevelClothDEBUG.pdb" /Gd /TP /errorReport:prompt /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /d2Zi+ ..\..\LowLevelCloth\src\Allocator.cpp ..\..\LowLevelCloth\src\Factory.cpp ..\..\LowLevelCloth\src\PhaseConfig.cpp ..\..\LowLevelCloth\src\SwCloth.cpp ..\..\LowLevelCloth\src\SwClothData.cpp ..\..\LowLevelCloth\src\SwCollision.cpp ..\..\LowLevelCloth\src\SwFabric.cpp ..\..\LowLevelCloth\src\SwFactory.cpp ..\..\LowLevelCloth\src\SwInterCollision.cpp ..\..\LowLevelCloth\src\SwSelfCollision.cpp ..\..\LowLevelCloth\src\SwSolver.cpp ..\..\LowLevelCloth\src\SwSolverKernel.cpp ..\..\LowLevelCloth\src\TripletScheduler.cpp
+         Allocator.cpp
+         Factory.cpp
+         PhaseConfig.cpp
+         SwCloth.cpp
+         SwClothData.cpp
+         SwCollision.cpp
+         SwFabric.cpp
+         SwFactory.cpp
+         SwInterCollision.cpp
+         SwSelfCollision.cpp
+         SwSolver.cpp
+         SwSolverKernel.cpp
+         TripletScheduler.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"./../../../Lib/vc12win64\LowLevelClothDEBUG.lib" /NOLOGO /MACHINE:X64 ./x64/LowLevelCloth/debug/avx/SwSolveConstraints.obj
+         ./x64/LowLevelCloth/debug\Allocator.obj
+         ./x64/LowLevelCloth/debug\Factory.obj
+         ./x64/LowLevelCloth/debug\PhaseConfig.obj
+         ./x64/LowLevelCloth/debug\SwCloth.obj
+         ./x64/LowLevelCloth/debug\SwClothData.obj
+         ./x64/LowLevelCloth/debug\SwCollision.obj
+         ./x64/LowLevelCloth/debug\SwFabric.obj
+         ./x64/LowLevelCloth/debug\SwFactory.obj
+         ./x64/LowLevelCloth/debug\SwInterCollision.obj
+         ./x64/LowLevelCloth/debug\SwSelfCollision.obj
+         ./x64/LowLevelCloth/debug\SwSolver.obj
+         ./x64/LowLevelCloth/debug\SwSolverKernel.obj
+         ./x64/LowLevelCloth/debug\TripletScheduler.obj
+         LowLevelCloth.vcxproj -> D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\./../../../Lib/vc12win64\LowLevelClothDEBUG.lib
+     1>Génération du projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\LowLevelCloth.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:09.47

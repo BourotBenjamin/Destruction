@@ -1,0 +1,17 @@
+﻿La génération a démarré 22/06/2016 17:16:24.
+     1>Projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\PvdRuntime.vcxproj" sur le nœud 5 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./../../../Include/foundation /I./../../foundation/include /I./../../../Include/physxprofilesdk /I./../../../Include/physxvisualdebuggersdk /I./../../../Include/common /I./../../../Include/geometry /I./../../../Include/pvd /I./../../../Include/pxtask /I./../../../Include/particles /I./../../../Include/cloth /I./../../../Include /I./../../Common/src /I./../../GeomUtils/headers /I./../../GeomUtils/src /I./../../GeomUtils/src/contact /I./../../GeomUtils/src/common /I./../../GeomUtils/src/convex /I./../../GeomUtils/src/distance /I./../../GeomUtils/src/sweep /I./../../GeomUtils/src/gjk /I./../../GeomUtils/src/intersection /I./../../GeomUtils/src/mesh /I./../../GeomUtils/src/hf /I./../../GeomUtils/src/pcm /I./../../PhysX/src /I./../../PhysX/src/cloth /I./../../PhysX/src/buffering /I./../../PhysX/src/particles /I./../../LowLevel/API/include /I./../../LowLevel/software/include /I./../../LowLevel/common/include/utils /I./../../LowLevel/common/include/math /I./../../LowLevel/common/include/pipeline /I./../../SceneQuery /I./../../SimulationController/include /I./../../SimulationController/src /I./../../SimulationController/src/framework /I./../../SimulationController/src/particles /I./../../PvdRuntime/src /I./../../PhysXMetaData/core/include /I./../../PhysXVisualDebuggerSDK /I./../../PhysXGpu/include /I./../../../externals/nvToolsExt/1/include /I./../../../externals/nvToolsExt/1/include/stdint /Zi /nologo /W4 /WX /Od /D PX_PHYSX_CORE_EXPORTS /D WIN32 /D WIN64 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D _WINSOCK_DEPRECATED_NO_WARNINGS /D PX_PHYSX_STATIC_LIB /D _DEBUG /D PX_DEBUG /D PX_CHECKED /D PX_SUPPORT_VISUAL_DEBUGGER /D PX_NVTX /GF /Gm- /RTCu /MTd /GS- /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"./x64/PvdRuntime/debug\\" /Fd"D:\GIT\Destruction\Libs\PhysXSDK\Lib\vc12win64\\PvdRuntimeDEBUG.pdb" /Gd /TP /errorReport:prompt /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /d2Zi+ ..\..\PvdRuntime\src\PvdSceneVisualDebugger.cpp ..\..\PvdRuntime\src\PvdVisualDebugger.cpp ..\..\PvdRuntime\src\PxMetaDataPvdBinding.cpp
+         PvdSceneVisualDebugger.cpp
+         PvdVisualDebugger.cpp
+         PxMetaDataPvdBinding.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"./../../../Lib/vc12win64\PvdRuntimeDEBUG.lib" /NOLOGO /MACHINE:X64 ./x64/PvdRuntime/debug\PvdSceneVisualDebugger.obj
+         ./x64/PvdRuntime/debug\PvdVisualDebugger.obj
+         ./x64/PvdRuntime/debug\PxMetaDataPvdBinding.obj
+         PvdRuntime.vcxproj -> D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\./../../../Lib/vc12win64\PvdRuntimeDEBUG.lib
+     1>Génération du projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\PvdRuntime.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:36.78

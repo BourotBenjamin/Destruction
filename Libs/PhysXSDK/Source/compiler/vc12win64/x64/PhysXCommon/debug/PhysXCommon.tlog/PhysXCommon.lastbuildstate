@@ -1,0 +1,2 @@
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+debug|x64|D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\|

@@ -1,0 +1,25 @@
+﻿La génération a démarré 22/06/2016 17:16:24.
+     1>Projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\SceneQuery.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I./../../../Include/foundation /I./../../foundation/include /I./../../../Include/physxprofilesdk /I./../../../Include/physxvisualdebuggersdk /I./../../../externals/nvToolsExt/1/include /I./../../../externals/nvToolsExt/1/include/stdint /I./../../../Include/common /I./../../../Include/geometry /I./../../../Include/pvd /I./../../../Include/pxtask /I./../../../Include /I./../../Common/src /I./../../Common/src/windows /I./../../GeomUtils/headers /I./../../GeomUtils/src /I./../../GeomUtils/src/contact /I./../../GeomUtils/src/common /I./../../GeomUtils/src/convex /I./../../GeomUtils/src/distance /I./../../GeomUtils/src/sweep /I./../../GeomUtils/src/gjk /I./../../GeomUtils/src/intersection /I./../../GeomUtils/src/mesh /I./../../GeomUtils/src/hf /I./../../GeomUtils/src/pcm /I./../../SceneQuery /I./../../SimulationController/include /I./../../LowLevel/API/include /I./../../LowLevel/ps3/include /I./../../PhysX/src /I./../../PhysX/src/buffering /I./../../PvdRuntime/src /Zi /nologo /W4 /WX /Od /D WIN32 /D WIN64 /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D _WINSOCK_DEPRECATED_NO_WARNINGS /D PX_PHYSX_STATIC_LIB /D _DEBUG /D PX_DEBUG /D PX_CHECKED /D PX_SUPPORT_VISUAL_DEBUGGER /D PX_NVTX /GF /Gm- /RTCu /MTd /GS- /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"./x64/SceneQuery/debug\\" /Fd"D:\GIT\Destruction\Libs\PhysXSDK\Lib\vc12win64\\SceneQueryDEBUG.pdb" /Gd /TP /errorReport:prompt /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /d2Zi+ ..\..\SceneQuery\SqAABBPruner.cpp ..\..\SceneQuery\SqAABBTree.cpp ..\..\SceneQuery\SqAABBTreeUpdateMap.cpp ..\..\SceneQuery\SqBucketPruner.cpp ..\..\SceneQuery\SqPruningPool.cpp ..\..\SceneQuery\SqSceneQueryManager.cpp ..\..\SceneQuery\SqUtilities.cpp
+         SqAABBPruner.cpp
+         SqAABBTree.cpp
+         SqAABBTreeUpdateMap.cpp
+         SqBucketPruner.cpp
+         SqPruningPool.cpp
+         SqSceneQueryManager.cpp
+         SqUtilities.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"./../../../Lib/vc12win64\SceneQueryDEBUG.lib" /NOLOGO /MACHINE:X64 ./x64/SceneQuery/debug\SqAABBPruner.obj
+         ./x64/SceneQuery/debug\SqAABBTree.obj
+         ./x64/SceneQuery/debug\SqAABBTreeUpdateMap.obj
+         ./x64/SceneQuery/debug\SqBucketPruner.obj
+         ./x64/SceneQuery/debug\SqPruningPool.obj
+         ./x64/SceneQuery/debug\SqSceneQueryManager.obj
+         ./x64/SceneQuery/debug\SqUtilities.obj
+         SceneQuery.vcxproj -> D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\./../../../Lib/vc12win64\SceneQueryDEBUG.lib
+     1>Génération du projet "D:\GIT\Destruction\Libs\PhysXSDK\Source\compiler\vc12win64\SceneQuery.vcxproj" terminée (Build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:20.99
