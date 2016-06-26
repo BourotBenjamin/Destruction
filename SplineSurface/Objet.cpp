@@ -1578,3 +1578,17 @@ void Objet::setLookAtPoint(Point p)
 	lookat = p;
 	isLookat = true;
 }
+
+std::shared_ptr<Polyhedron_3> Objet::generatePolyhedron()
+{
+	this->setupStruct();
+	std::shared_ptr<Polyhedron_3> p = std::shared_ptr<Polyhedron_3>(new Polyhedron_3());
+	auto f = this->face.begin();
+	while (f != this->face.end())
+	{
+		K::Point_3 p1(f->vertice[0]->position.Getx(), f->vertice[0]->position.Gety(), f->vertice[0]->position.Getz()), p2(f->vertice[1]->position.Getx(), f->vertice[1]->position.Gety(), f->vertice[1]->position.Getz()), p3(f->vertice[2]->position.Getx(), f->vertice[2]->position.Gety(), f->vertice[2]->position.Getz());
+		p->make_triangle(p1, p2, p3);
+		++f;
+	}
+	return p;
+}

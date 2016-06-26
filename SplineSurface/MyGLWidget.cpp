@@ -3,8 +3,10 @@
 #include "MyGLWidget.h"
 #include <QtGui\qevent.h>
 
-float MAX_DIST = 10.0;
-int NB_POINTS = 25;
+float POSX = 80.0f, POSY = -80.0f, POSZ = -80.0f;
+//float POSX = -90.0f, POSY = -90.0f, POSZ = -90.0f;
+float MAX_DIST = 100.0;
+int NB_POINTS = 100;
 
 
 void MyGLWidget::initializeGL()
@@ -340,7 +342,13 @@ void MyGLWidget::updateWidget(float deltaTime)
 		down = true;
 	else if (indexInSpline == 1 && down == true)
 		down = false;
-
+	if (canMove)
+	{
+		for each (std::shared_ptr<Objet> tetra in destruction)
+		{
+			tetra->position += Point((((rand() % 200) - 100) * 1.f), (((rand() % 200) - 100) * 1.f), (((rand() % 200) - 100) * 1.f)) * deltaTime;
+		}
+	}
 
 	auto t = timer.GetElapsedTimeSince(timer.GetStartTime())/2;
 	//auto lampMove = Point(std::cos(t), 0, std::sin(t));
@@ -461,14 +469,14 @@ void MyGLWidget::paintGL()
 	glUseProgram(program);
 	renderScene(program, 0);
 
-
+	/*
 	program = shad->getProgramID();
 	vertex->drawCourbe2(projection, modelView, program);
 	//path->drawCourbe2(projection, modelView, program);
 	/*path2->drawCourbe2(projection, modelView, program);
 	path3->drawCourbe2(projection, modelView, program);
 	path4->drawCourbe2(projection, modelView, program);*/
-
+	/*
 	coons->drawCourbe(projection, modelView, program);
 
 	program = shadFace->getProgramID();
@@ -490,7 +498,7 @@ void MyGLWidget::paintGL()
 		if (tmpCourbe.size() != 0)
 			tmpCourbe.back()->drawCourbe2(projection, modelView, program);*/
 		//for (auto i = 0; i < vecCoons.size(); ++i)
-		if (vecCoons.size())
+		/*if (vecCoons.size())
 			vecCoons[0]->drawCourbe(projection, modelView, program);
 	}
 	else
@@ -518,7 +526,7 @@ void MyGLWidget::paintGL()
 			break;
 		}
 	}
-
+	*/
 
 	program = lampshad->getProgramID();
 	glUseProgram(program);
@@ -653,7 +661,11 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 
 		}*/
 
-		Polyhedron_3 baseObject;
+		destructor.generatePoints(POSX, POSY, POSZ, MAX_DIST, NB_POINTS);
+
+		//std::shared_ptr<Polyhedron_3> baseObject = floor->generatePolyhedron();
+		//auto currentDestruction = destructor.generateTriangulation3D(cube, *baseObject);
+
 		K::Point_3 p1(-100.0f, -100.0f, -100.0f), 
 				p2(100.0f, -100.0f, -100.0f), 
 				p3(-1.0f, 1.0f, -1.0f), 
@@ -662,11 +674,10 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 				p6(100.0f, -100.0f, 100.0f), 
 				p7(-1.0f, 1.0f, 1.0f), 
 				p8(1.0f, 1.0f, 1.0f);
-
-		baseObject.make_tetrahedron(p1, p2, p4, p6);		
-
-		destructor.generatePoints(-100.0f, -100.0f, -100.0f, MAX_DIST, NB_POINTS);
+		Polyhedron_3 baseObject;
+		baseObject.make_tetrahedron(p1, p2, p4, p6);	
 		auto currentDestruction = destructor.generateTriangulation3D(cube, baseObject);
+
 		for each (std::shared_ptr<Objet> tetra in currentDestruction)
 		{
 			destruction.push_back(tetra);
@@ -801,6 +812,8 @@ bool MyGLWidget::event(QEvent *e)
 			wireframe = true;
 		if (ke->key() == Qt::Key_2)
 			wireframe = false;
+		if (ke->key() == Qt::Key_Z)
+			canMove = !canMove;
 
 	}
 	if (e->type() == QEvent::KeyRelease) {
@@ -840,6 +853,8 @@ bool MyGLWidget::event(QEvent *e)
 			subdiv = true;
 		if (ke->key() == Qt::Key_8)
 			subdiv = true;
+		if (ke->key() == Qt::Key_E)
+			canMove = !canMove;
 	}
 
 	return QWidget::event(e);

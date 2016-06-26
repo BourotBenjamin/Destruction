@@ -17,6 +17,7 @@
 #include "Mat4x4.h"
 #include <tiny_obj_loader.h>
 #include <time.h>
+#include "typedefs.h"
 
 
 struct Particle
@@ -218,6 +219,8 @@ public:
 		return ((float)rand() / Max);
 	}
 	bool alive = true;
+
+	std::shared_ptr<Polyhedron_3> generatePolyhedron();
 
 
 };

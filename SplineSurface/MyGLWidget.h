@@ -52,6 +52,7 @@ protected:
 	bool subdiv = true;
 
 	bool wireframe = false;
+	bool canMove = false;
 
 	int ortho;
 	

@@ -2,6 +2,18 @@
 
 
 
+
+bool pointInside(Polyhedron_3 &polyhedron, K::Point_3 &query) {
+	// Construct AABB tree with a KdTree
+	Tree tree(faces(polyhedron).first, faces(polyhedron).second, polyhedron);
+	tree.accelerate_distance_queries();
+	// Initialize the point-in-polyhedron tester
+	Point_inside inside_tester(tree);
+
+	// Determine the side and return true if inside!
+	return inside_tester(query) == CGAL::ON_BOUNDED_SIDE;
+}
+
 std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::shared_ptr<Objet> baseObject, Polyhedron_3& baseObjectPoly)
 {
 	std::vector<std::shared_ptr<Objet>> objets;
@@ -17,55 +29,73 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 		CGAL::convex_hull_3_to_polyhedron_3(triangulation, triangulationPoly);
 		Nef_polyhedron triangulationNef(triangulationPoly);
 		Nef_polyhedron baseObjectNef(baseObjectPoly);
-		Nef_polyhedron singlePieceNef;
-		
-		Polyhedron_3 polyTetra;
-		auto tetra = triangulation.finite_cells_begin();
-		while (tetra != triangulation.finite_cells_end())
+		triangulationNef = triangulationNef.intersection(baseObjectNef);
+		triangulationNef.convert_to_Polyhedron(triangulationPoly);
+		triangulation.clear();
+		auto vertice = triangulationNef.vertices_begin();
+		while (vertice != triangulationNef.vertices_end())
 		{
-			singlePieceNef.clear();
-			polyTetra.clear();
-			polyTetra.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
-			singlePieceNef = Nef_polyhedron(polyTetra);
-			singlePieceNef = singlePieceNef - (singlePieceNef - baseObjectNef);
-			if (singlePieceNef.is_simple())
-				singlePieceNef.convert_to_Polyhedron(polyTetra);
-			else
-				std::cout << "Not Simple" << std::endl;
-
-			int indice = 0;
-			Objet* o = new Objet();
-			o->alive = false;
-
-			auto facet = polyTetra.facets_begin();
-			while (facet != polyTetra.facets_end())
+			triangulation.insert(vertice->point());
+			++vertice;
+		}
+		auto pt3D = pts3D.begin();
+		while (pt3D != pts3D.end())
+		{
+			if (pointInside(triangulationPoly, *pt3D))
+				triangulation.insert(*pt3D);
+			++pt3D;
+		}
+		if (triangulation.is_valid())
+		{
+			auto tetra = triangulation.finite_cells_begin();
+			while (tetra != triangulation.finite_cells_end())
 			{
+				int indice = 0;
+				Objet* o = new Objet();
 				o->alive = true;
-				auto vertice = facet->facet_begin();
-				for (int i = 0; i < 3; i++, vertice++)
-				{
-					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
-					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
-					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
-					eboIndices.push_back(indice);
-					++indice;
-				}
-				++facet;
-			}
+				vboPos.push_back(CGAL::to_double(tetra->vertex(0)->point().x()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(0)->point().y()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(0)->point().z()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(1)->point().x()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(1)->point().y()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(1)->point().z()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(2)->point().x()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(2)->point().y()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(2)->point().z()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(3)->point().x()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(3)->point().y()));
+				vboPos.push_back(CGAL::to_double(tetra->vertex(3)->point().z()));
 
-			++tetra;
-			if (o->alive)
-			{
+				eboIndices.push_back(0);
+				eboIndices.push_back(1);
+				eboIndices.push_back(2);
+
+				eboIndices.push_back(0);
+				eboIndices.push_back(1);
+				eboIndices.push_back(3);
+
+				eboIndices.push_back(0);
+				eboIndices.push_back(2);
+				eboIndices.push_back(3);
+
+				eboIndices.push_back(1);
+				eboIndices.push_back(2);
+				eboIndices.push_back(3);
+
+				++tetra;
+
 				o->loadVerticesAndIndices(eboIndices, vboPos);
 				o->reload();
 				const std::vector<float> normals, texcoords;
 				std::vector<tinyobj::material_t> materials;
 				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
 				objets.push_back(std::shared_ptr<Objet>(o));
+
+				vboPos.clear();
+				eboIndices.clear();
 			}
-			vboPos.clear();
-			eboIndices.clear();
 		}
+		Polyhedron_3 polyTetra;
 		baseObjectNef -= triangulationNef;
 
 		int indice = 0;
