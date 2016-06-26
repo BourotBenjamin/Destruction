@@ -106,14 +106,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\Libs\glew\include;$(ProjectDir)\..\Libs\qt\include;$(ProjectDir)\..\Libs\tinyobjloader;$(ProjectDir)\..\Libs\stb;$(ProjectDir)\..\Libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\Libs\glew\include;$(ProjectDir)\..\Libs\qt\include;$(ProjectDir)\..\Libs\tinyobjloader;$(ProjectDir)\..\Libs\stb;$(ProjectDir)\..\Libs\glm;$(ProjectDir)\..\Libs\PhysXSDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\Libs\glew\lib\Release\x64;$(ProjectDir)\..\Libs\qt\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3CommonDEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3DEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3GpuDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,7 +142,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\..\Libs\glew\include;$(ProjectDir)\..\Libs\qt\include;$(ProjectDir)\..\Libs\tinyobjloader;$(ProjectDir)\..\Libs\stb;$(ProjectDir)\..\Libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\Libs\glew\include;$(ProjectDir)\..\Libs\qt\include;$(ProjectDir)\..\Libs\tinyobjloader;$(ProjectDir)\..\Libs\stb;$(ProjectDir)\..\Libs\glm;$(ProjectDir)\..\Libs\PhysXSDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -151,7 +151,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3CommonDEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3DEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3GpuDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\..\Libs\glew\lib\Release\x64;$(ProjectDir)\..\Libs\qt\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/nodefaultlib:libcmt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
