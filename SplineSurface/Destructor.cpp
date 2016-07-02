@@ -86,7 +86,47 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 
 				o->loadVerticesAndIndices(eboIndices, vboPos);
 				o->reload();
-				const std::vector<float> normals, texcoords;
+				std::vector<float> normals, texcoords;
+
+				float f1x, f1y, f1z, f2x, f2y, f2z, f3x, f3y, f3z, f4x, f4y, f4z;
+
+				float Ax = (vboPos[1 * 3] - vboPos[0 * 3]), Ay = (vboPos[1 * 3 + 1] - vboPos[0 * 3 + 1]), Az = (vboPos[1 * 3 + 2] - vboPos[0 * 3 + 2]);
+				float Bx = (vboPos[2 * 3] - vboPos[1 * 3]), By = (vboPos[2 * 3 + 1] - vboPos[1 * 3 + 1]), Bz = (vboPos[2 * 3 + 2] - vboPos[1 * 3 + 2]);
+				f1x = Ay*Bz - Az*By;
+				f1y = Az*Bx - Ax*Bz;
+				f1z = Ax*By - Ay*Bx;
+
+				Ax = (vboPos[1 * 3] - vboPos[0 * 3]), Ay = (vboPos[1 * 3 + 1] - vboPos[0 * 3 + 1]), Az = (vboPos[1 * 3 + 2] - vboPos[0 * 3 + 2]);
+				Bx = (vboPos[3 * 3] - vboPos[1 * 3]), By = (vboPos[3 * 3 + 1] - vboPos[1 * 3 + 1]), Bz = (vboPos[3 * 3 + 2] - vboPos[1 * 3 + 2]);
+				f2x = Ay*Bz - Az*By;
+				f2y = Az*Bx - Ax*Bz;
+				f2z = Ax*By - Ay*Bx;
+
+				Ax = (vboPos[2 * 3] - vboPos[0 * 3]), Ay = (vboPos[2 * 3 + 1] - vboPos[0 * 3 + 1]), Az = (vboPos[2 * 3 + 2] - vboPos[0 * 3 + 2]);
+				Bx = (vboPos[3 * 3] - vboPos[2 * 3]), By = (vboPos[3 * 3 + 1] - vboPos[2 * 3 + 1]), Bz = (vboPos[3 * 3 + 2] - vboPos[2 * 3 + 2]);
+				f3x = Ay*Bz - Az*By;
+				f3y = Az*Bx - Ax*Bz;
+				f3z = Ax*By - Ay*Bx;
+
+				Ax = (vboPos[2 * 3] - vboPos[1 * 3]), Ay = (vboPos[2 * 3 + 1] - vboPos[1 * 3 + 1]), Az = (vboPos[2 * 3 + 2] - vboPos[1 * 3 + 2]);
+				Bx = (vboPos[3 * 3] - vboPos[2 * 3]), By = (vboPos[3 * 3 + 1] - vboPos[2 * 3 + 1]), Bz = (vboPos[3 * 3 + 2] - vboPos[2 * 3 + 2]);
+				f4x = Ay*Bz - Az*By;
+				f4y = Az*Bx - Ax*Bz;
+				f4z = Ax*By - Ay*Bx;
+
+				normals.push_back((f1x + f2x + f3x) / 3.0f);
+				normals.push_back((f1y + f2y + f3y) / 3.0f);
+				normals.push_back((f1z + f2z + f3z) / 3.0f);
+				normals.push_back((f1x + f2x + f4x) / 3.0f);
+				normals.push_back((f1y + f2y + f4y) / 3.0f);
+				normals.push_back((f1z + f2z + f4z) / 3.0f);
+				normals.push_back((f1x + f3x + f4x) / 3.0f);
+				normals.push_back((f1y + f3y + f4y) / 3.0f);
+				normals.push_back((f1z + f3z + f4z) / 3.0f);
+				normals.push_back((f2x + f3x + f4x) / 3.0f);
+				normals.push_back((f2y + f3y + f4y) / 3.0f);
+				normals.push_back((f2z + f3z + f4z) / 3.0f);
+
 				std::vector<tinyobj::material_t> materials;
 				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
 				objets.push_back(std::shared_ptr<Objet>(o));
