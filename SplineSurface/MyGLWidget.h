@@ -67,6 +67,7 @@ protected:
 	std::unique_ptr< Shader> shadowDepth;
 	std::unique_ptr< Shader> debugDepth;
 	std::unique_ptr< Shader> lampshad;
+	std::unique_ptr< Shader> simpleShaderWithNormals;
 	std::unique_ptr< Shader> billboard;
 	std::unique_ptr< EsgiShader> updateParticules;
 

@@ -42,6 +42,7 @@ void MyGLWidget::initializeGL()
 	lampshad = std::unique_ptr<Shader>(new Shader("lamp.vs", "lamp.fs", "", ""));
 	updateParticules = std::unique_ptr<EsgiShader>(new EsgiShader());//"ps_update.vs", "ps_update.fs", "ps_update.gs", ""));
 	billboard = std::unique_ptr<Shader>(new Shader("billboard.vs", "billboard.fs", "billboard.gs", ""));
+	simpleShaderWithNormals = std::unique_ptr<Shader>(new Shader("normals.vs", "normals.fs", "", ""));
 
 	rightClick = false;
 	modelView.identity();
@@ -465,7 +466,7 @@ void MyGLWidget::paintGL()
 	//particuleEmitter->currTFB = (particuleEmitter->currTFB + 1) & 0x1;
 	//std::swap(particuleEmitter->currVB, particuleEmitter->currTFB);
 	//particuleEmitter->currSource ^= 1;
-	program = normalMap->getProgramID();
+	program = simpleShaderWithNormals->getProgramID();
 	glUseProgram(program);
 	renderScene(program, 0);
 
@@ -576,6 +577,7 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 
 	//cat->render(program, shadowTex);
 	//cyborg->render(program, shadowTex);
+
 	floor->render2(program, shadowTex, wireframe);
 	wall3->render2(program, shadowTex, wireframe);
 	wall2->render2(program, shadowTex, wireframe);

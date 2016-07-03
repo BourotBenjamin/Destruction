@@ -16,6 +16,7 @@
 #include <CGAL/Side_of_triangle_mesh.h>
 #include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>
+#include <CGAL/Polygon_mesh_processing/compute_normal.h>
 
 typedef CGAL::Exact_predicates_exact_constructions_kernel     K;
 typedef CGAL::Delaunay_triangulation_3<K>                       DT3;

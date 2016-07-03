@@ -24,6 +24,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 
 		std::vector<float> vboPos;
 		std::vector<unsigned int> eboIndices;
+		std::vector<float> texcoords;
+		std::vector<float> normals;
+		std::vector<tinyobj::material_t> materials;
 
 		Polyhedron_3 triangulationPoly;
 		CGAL::convex_hull_3_to_polyhedron_3(triangulation, triangulationPoly);
@@ -50,123 +53,80 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 			auto tetra = triangulation.finite_cells_begin();
 			while (tetra != triangulation.finite_cells_end())
 			{
-				int indice = 0;
+				triangulationPoly.clear();
+				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
+				std::vector<float> normals;
 				Objet* o = new Objet();
 				o->alive = true;
-				vboPos.push_back(CGAL::to_double(tetra->vertex(0)->point().x()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(0)->point().y()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(0)->point().z()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(1)->point().x()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(1)->point().y()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(1)->point().z()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(2)->point().x()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(2)->point().y()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(2)->point().z()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(3)->point().x()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(3)->point().y()));
-				vboPos.push_back(CGAL::to_double(tetra->vertex(3)->point().z()));
+				int indice = 0;
+				auto facet = triangulationPoly.facets_begin();
+				while (facet != triangulationPoly.facets_end())
+				{
 
-				eboIndices.push_back(0);
-				eboIndices.push_back(1);
-				eboIndices.push_back(2);
-
-				eboIndices.push_back(0);
-				eboIndices.push_back(1);
-				eboIndices.push_back(3);
-
-				eboIndices.push_back(0);
-				eboIndices.push_back(2);
-				eboIndices.push_back(3);
-
-				eboIndices.push_back(1);
-				eboIndices.push_back(2);
-				eboIndices.push_back(3);
-
-				++tetra;
-
+					o->alive = true;
+					auto vertice = facet->facet_begin();
+					for (int i = 0; i < 3; i++, vertice++)
+					{
+						K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
+						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
+						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
+						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+						eboIndices.push_back(indice);
+						normals.push_back(CGAL::to_double(normal.x()));
+						normals.push_back(CGAL::to_double(normal.y()));
+						normals.push_back(CGAL::to_double(normal.z()));
+						++indice;
+					}
+					++facet;
+				}
 				o->loadVerticesAndIndices(eboIndices, vboPos);
 				o->reload();
-				std::vector<float> normals, texcoords;
-
-				float f1x, f1y, f1z, f2x, f2y, f2z, f3x, f3y, f3z, f4x, f4y, f4z;
-
-				float Ax = (vboPos[1 * 3] - vboPos[0 * 3]), Ay = (vboPos[1 * 3 + 1] - vboPos[0 * 3 + 1]), Az = (vboPos[1 * 3 + 2] - vboPos[0 * 3 + 2]);
-				float Bx = (vboPos[2 * 3] - vboPos[1 * 3]), By = (vboPos[2 * 3 + 1] - vboPos[1 * 3 + 1]), Bz = (vboPos[2 * 3 + 2] - vboPos[1 * 3 + 2]);
-				f1x = Ay*Bz - Az*By;
-				f1y = Az*Bx - Ax*Bz;
-				f1z = Ax*By - Ay*Bx;
-
-				Ax = (vboPos[1 * 3] - vboPos[0 * 3]), Ay = (vboPos[1 * 3 + 1] - vboPos[0 * 3 + 1]), Az = (vboPos[1 * 3 + 2] - vboPos[0 * 3 + 2]);
-				Bx = (vboPos[3 * 3] - vboPos[1 * 3]), By = (vboPos[3 * 3 + 1] - vboPos[1 * 3 + 1]), Bz = (vboPos[3 * 3 + 2] - vboPos[1 * 3 + 2]);
-				f2x = Ay*Bz - Az*By;
-				f2y = Az*Bx - Ax*Bz;
-				f2z = Ax*By - Ay*Bx;
-
-				Ax = (vboPos[2 * 3] - vboPos[0 * 3]), Ay = (vboPos[2 * 3 + 1] - vboPos[0 * 3 + 1]), Az = (vboPos[2 * 3 + 2] - vboPos[0 * 3 + 2]);
-				Bx = (vboPos[3 * 3] - vboPos[2 * 3]), By = (vboPos[3 * 3 + 1] - vboPos[2 * 3 + 1]), Bz = (vboPos[3 * 3 + 2] - vboPos[2 * 3 + 2]);
-				f3x = Ay*Bz - Az*By;
-				f3y = Az*Bx - Ax*Bz;
-				f3z = Ax*By - Ay*Bx;
-
-				Ax = (vboPos[2 * 3] - vboPos[1 * 3]), Ay = (vboPos[2 * 3 + 1] - vboPos[1 * 3 + 1]), Az = (vboPos[2 * 3 + 2] - vboPos[1 * 3 + 2]);
-				Bx = (vboPos[3 * 3] - vboPos[2 * 3]), By = (vboPos[3 * 3 + 1] - vboPos[2 * 3 + 1]), Bz = (vboPos[3 * 3 + 2] - vboPos[2 * 3 + 2]);
-				f4x = Ay*Bz - Az*By;
-				f4y = Az*Bx - Ax*Bz;
-				f4z = Ax*By - Ay*Bx;
-
-				normals.push_back((f1x + f2x + f3x) / 3.0f);
-				normals.push_back((f1y + f2y + f3y) / 3.0f);
-				normals.push_back((f1z + f2z + f3z) / 3.0f);
-				normals.push_back((f1x + f2x + f4x) / 3.0f);
-				normals.push_back((f1y + f2y + f4y) / 3.0f);
-				normals.push_back((f1z + f2z + f4z) / 3.0f);
-				normals.push_back((f1x + f3x + f4x) / 3.0f);
-				normals.push_back((f1y + f3y + f4y) / 3.0f);
-				normals.push_back((f1z + f3z + f4z) / 3.0f);
-				normals.push_back((f2x + f3x + f4x) / 3.0f);
-				normals.push_back((f2y + f3y + f4y) / 3.0f);
-				normals.push_back((f2z + f3z + f4z) / 3.0f);
-
-				std::vector<tinyobj::material_t> materials;
 				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
 				objets.push_back(std::shared_ptr<Objet>(o));
 
 				vboPos.clear();
 				eboIndices.clear();
+				normals.clear();
+				++tetra;
 			}
 		}
 		Polyhedron_3 polyTetra;
 		baseObjectNef -= triangulationNef;
-
 		int indice = 0;
 		baseObject->alive = false;
 		baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
 		auto facet = baseObjectPoly.facets_begin();
 		while (facet != baseObjectPoly.facets_end())
 		{
+			
 			baseObject->alive = true;
 			auto vertice = facet->facet_begin();
 			for (int i = 0; i < 3; i++, vertice++)
 			{
+				K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), baseObjectPoly);
 				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
 				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
 				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
 				eboIndices.push_back(indice);
+				normals.push_back(CGAL::to_double(normal.x()));
+				normals.push_back(CGAL::to_double(normal.y()));
+				normals.push_back(CGAL::to_double(normal.z()));
 				++indice;
 			}
 			++facet;
 		}
+
+
 		if (baseObject->alive)
 		{
 			baseObject->loadVerticesAndIndices(eboIndices, vboPos);
 			baseObject->reload();
-			const std::vector<float> normals, texcoords;
-			std::vector<tinyobj::material_t> materials;
 			baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
 			objets.push_back(baseObject);
 		}
 		vboPos.clear();
 		eboIndices.clear();
+		normals.clear();
 	}
 	else
 		std::cout << "Invalid" << std::endl;

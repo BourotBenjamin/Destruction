@@ -1052,7 +1052,7 @@ void Objet::LoadByDatas(const std::vector<unsigned int>& indices, const std::vec
 	if (positions.size()) {
 		stride += 3 * sizeof(float);
 	}
-	if (isDiffuseMap) {
+	if (normals.size()) {
 		stride += 3 * sizeof(float);
 	}
 	if (isDiffuseMap) {
@@ -1168,7 +1168,7 @@ void Objet::LoadByDatas(const std::vector<unsigned int>& indices, const std::vec
 			memcpy(vertices, &positions[index * 3], 3 * sizeof(float));
 			vertices += 3;
 		}
-		if (isDiffuseMap) {
+		if (normals.size()) {
 			memcpy(vertices, &normals[index * 3], 3 * sizeof(float));
 			vertices += 3;
 		}
@@ -1192,7 +1192,7 @@ void Objet::LoadByDatas(const std::vector<unsigned int>& indices, const std::vec
 	uint32_t offset = 3 * sizeof(float);
 	glVertexAttribPointer(0, 3, GL_FLOAT, false, stride, nullptr);
 	glEnableVertexAttribArray(0);
-	if (isDiffuseMap) {
+	if (normals.size()) {
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, stride, (GLvoid *)offset);
 		glEnableVertexAttribArray(1);
 		offset += 3 * sizeof(float);
