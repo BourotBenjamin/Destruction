@@ -12,6 +12,9 @@ int NB_POINTS = 100;
 void MyGLWidget::initializeGL()
 {
 	GLenum err = glewInit();
+
+	mpEngine.initPhysics(true);
+
 	if (GLEW_OK != err)
 	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));

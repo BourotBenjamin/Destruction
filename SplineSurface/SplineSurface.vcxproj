@@ -108,12 +108,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\Libs\glew\include;$(ProjectDir)\..\Libs\qt\include;$(ProjectDir)\..\Libs\tinyobjloader;$(ProjectDir)\..\Libs\stb;$(ProjectDir)\..\Libs\glm;$(ProjectDir)\..\Libs\PhysXSDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\Libs\glew\lib\Release\x64;$(ProjectDir)\..\Libs\qt\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3CommonDEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3DEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3GpuDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\Libs\glew\lib\Release\x64;$(ProjectDir)\..\Libs\qt\lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;PhysX3CharacterKinematicDEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3GpuDEBUG_x64.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PvdRuntimeDEBUG.lib;PxTaskDEBUG.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,8 +152,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3CommonDEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3DEBUG_x64.lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64\PhysX3GpuDEBUG_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\..\Libs\glew\lib\Release\x64;$(ProjectDir)\..\Libs\qt\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libgmp-10.lib;libmpfr-4.lib;opengl32.lib;glew32s.lib;Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;LowLevelCloth.lib;LowLevel.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Common_x64.lib;PhysX3Cooking_x64.lib;PhysX3_x64.lib;PhysX3Extensions.lib;PhysX3Gpu_x64.lib;PhysX3Vehicle.lib;PhysXProfileSDK.lib;PhysXVisualDebuggerSDK.lib;PvdRuntime.lib;PxTask.lib;SceneQuery.lib;SimulationController.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\..\Libs\glew\lib\Release\x64;$(ProjectDir)\..\Libs\qt\lib;$(ProjectDir)\..\Libs\PhysXSDK\Lib\vc12win64</AdditionalLibraryDirectories>
       <AdditionalOptions>/nodefaultlib:libcmt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -184,6 +185,7 @@
     <ClInclude Include="Destructor.h" />
     <ClInclude Include="EsgiShader.h" />
     <ClInclude Include="EsgiTimer.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="MainWidget.h" />
     <ClInclude Include="Mat4x4.h" />
     <ClInclude Include="MyGLWidget.h" />

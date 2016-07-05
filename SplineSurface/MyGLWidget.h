@@ -16,6 +16,7 @@
 #include "EsgiTimer.h"
 #include "EsgiShader.h"
 #include "Destructor.h"
+#include "PhysicsEngine.h"
 
 const GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
@@ -23,6 +24,9 @@ class MyGLWidget : public QGLWidget
 {
 	//Q_OBJECT
 protected:
+
+	PhysXEng mpEngine;
+
 	std::shared_ptr<Objet> cube;
 	Destructor destructor;
 	std::vector<std::shared_ptr<Objet>> destruction;
