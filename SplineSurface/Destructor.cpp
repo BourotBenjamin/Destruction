@@ -62,12 +62,12 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 				auto facet = triangulationPoly.facets_begin();
 				while (facet != triangulationPoly.facets_end())
 				{
-
+					K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
 					o->alive = true;
 					auto vertice = facet->facet_begin();
 					for (int i = 0; i < 3; i++, vertice++)
 					{
-						K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
+						//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
 						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
 						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
 						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
@@ -98,12 +98,12 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 		auto facet = baseObjectPoly.facets_begin();
 		while (facet != baseObjectPoly.facets_end())
 		{
-			
+			K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
 			baseObject->alive = true;
 			auto vertice = facet->facet_begin();
 			for (int i = 0; i < 3; i++, vertice++)
 			{
-				K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), baseObjectPoly);
+				//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
 				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
 				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
 				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
