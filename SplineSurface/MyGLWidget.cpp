@@ -384,6 +384,33 @@ void MyGLWidget::updateWidget(float deltaTime)
 			tmpCourbe.clear();
 		}
 	}
+	mpEngine.stepPhysics(true);
+
+	PxScene* scene;
+	PxGetPhysics().getScenes(&scene, 1);
+	PxU32 nbActors = scene->getNbActors(PxActorTypeSelectionFlag::eRIGID_DYNAMIC | PxActorTypeSelectionFlag::eRIGID_STATIC);
+	if (nbActors)
+	{
+		std::vector<PxRigidActor*> actors(nbActors);
+		scene->getActors(PxActorTypeSelectionFlag::eRIGID_DYNAMIC | PxActorTypeSelectionFlag::eRIGID_STATIC, (PxActor**)&actors[0], nbActors);
+		//Snippets::renderActors(&actors[0], (PxU32)actors.size(), true);
+		//void renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows, const PxVec3 & color)
+		PxShape* shapes[128];
+		for (PxU32 i = 0; i<actors.size()-1; i++)
+		{
+			const PxU32 nbShapes = actors[i]->getNbShapes();
+			PX_ASSERT(nbShapes <= MAX_NUM_ACTOR_SHAPES);
+			actors[i]->getShapes(shapes, nbShapes);
+			bool sleeping = actors[i]->isRigidDynamic() ? actors[i]->isRigidDynamic()->isSleeping() : false;
+
+			for (PxU32 j = 0; j<nbShapes; j++)
+			{
+				const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
+				if (destruction.size() > 0)
+					destruction[i]->setWorldMatrix((float *)&(shapePose.column0), (float *)&(shapePose.column1), (float *)&(shapePose.column2), (float *)&(shapePose.column3));
+			}
+		}
+	}
 
 	cam.lookAt(modelView);
 }
@@ -587,7 +614,7 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	for each (auto &piece in destruction)
 	{
 		if (piece->alive)
-			piece->render2(program, shadowTex, wireframe);
+			piece->render3(program, shadowTex, wireframe);
 	}
 }
 
@@ -687,6 +714,8 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		{
 			destruction.push_back(tetra);
 		}
+		//mpEngine.createStack(PxTransform(PxVec3(0, 0, 10.0f)), 10, 2.0f);
+		mpEngine.createDebris(destruction, 0.1f);
 	}
 }
 

@@ -1399,6 +1399,67 @@ void Objet::render2(GLuint& program, GLuint shadowText, bool wireframe)
 	glBindVertexArray(0);
 }
 
+void Objet::render3(GLuint& program, GLuint shadowText, bool wireframe)
+{
+	auto worldLocation = glGetUniformLocation(program, "u_worldMatrix");
+
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+	//UpdateTransform();
+	glUniformMatrix4fv(worldLocation, 1, GL_FALSE, worldMatrix.getMatrix());
+
+	if (isDiffuseMap)
+	{
+		UpdateMaterial(program);
+		auto diffTexLocation = glGetUniformLocation(program, "u_sampler");
+		glUniform1i(diffTexLocation, 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureObj);
+	}
+
+	if (isSpecularMap)
+	{
+		auto specTexLocation = glGetUniformLocation(program, "u_specularMap");
+		glUniform1i(specTexLocation, 1);
+		auto spec = glGetUniformLocation(program, "u_isSpecular");
+		glUniform1i(spec, 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, specularObj);
+	}
+	else
+	{
+		auto spec = glGetUniformLocation(program, "u_isSpecular");
+		glUniform1i(spec, 0);
+	}
+
+	if (shadowText != 0)
+	{
+		auto shadowLoc = glGetUniformLocation(program, "u_shadowMap");
+		glUniform1i(shadowLoc, 2);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, shadowText);
+	}
+
+	if (isNormalMap)
+	{
+		auto bumpTexLocation = glGetUniformLocation(program, "u_normalMap");
+		glUniform1i(bumpTexLocation, 3);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, normalObj);
+	}
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	//glPointSize(10);
+	//glDrawElements(GL_POINTS, ElementCount, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, ElementCount, GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindVertexArray(0);
+}
+
 void Objet::renderNormalMap(GLuint& program)
 {
 	auto worldLocation = glGetUniformLocation(program, "u_worldMatrix");

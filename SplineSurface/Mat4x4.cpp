@@ -6,6 +6,32 @@ Mat4x4::Mat4x4(float val)
 	memset(m, val, sizeof(float)* 16);
 }
 
+Mat4x4::Mat4x4(float* col0, float* col1, float* col2, float* col3)
+{
+	memset(m, 0, sizeof(float)* 16);
+
+	m[0]  = col0[0];
+	m[1]  = col0[1];
+	m[2]  = col0[2];
+	m[3]  = col0[3];
+
+	m[4] = col1[0];
+	m[5] = col1[1];
+	m[6] = col1[2];
+	m[7] = col1[3];
+
+	m[8] = col2[0];
+	m[9] = col2[1];
+	m[10] = col2[2];
+	m[11] = col2[3];
+
+	m[12] = col3[0];
+	m[13] = col3[1];
+	m[14] = col3[2];
+	m[15] = col3[3];
+
+}
+
 Mat4x4::Mat4x4(Mat4x4& m2)
 {
 	for(int i = 0; i < 16; i++)

@@ -103,7 +103,7 @@ class Objet
 {
 protected:
 
-	
+
 	Mat4x4 worldMatrix;
 	// mesh
 	GLuint VBO = 0;
@@ -124,13 +124,13 @@ protected:
 	std::vector<Vertex> vertex;
 
 
-	
+
 
 	std::vector<uint32_t> eboIndices;
 	std::vector<float> vboPos;
 
 	std::vector<float> texCoords;
-	
+
 	bool isLookat = false;
 
 	Point ambiant;
@@ -178,8 +178,8 @@ public:
 	Objet::Objet();
 	Objet(std::string objfile, bool noNorma = false);
 	Objet(std::vector<std::string>& v);
-	Objet(std::string objfile,std::string normalMap);
-	Objet(std::string objfile, uint32_t nbParticules, EsgiShader& programUpdate, std::string vertexShader, std::string fragmentShader, std::string geometryShader );
+	Objet(std::string objfile, std::string normalMap);
+	Objet(std::string objfile, uint32_t nbParticules, EsgiShader& programUpdate, std::string vertexShader, std::string fragmentShader, std::string geometryShader);
 	~Objet();
 
 	void reload();
@@ -188,6 +188,12 @@ public:
 	void Objet::LoadByDatas(const std::vector<unsigned int>& indices, const std::vector<float>& positions, const std::vector<float>& normals, const std::vector<float>& texcoords, std::string& file, std::vector<tinyobj::material_t>& materials, bool noNormal);
 
 	void render2(GLuint& program, GLuint shadowText, bool wireframe);
+	void render3(GLuint& program, GLuint shadowText, bool wireframe);
+
+	void setWorldMatrix(float* col0, float* col1, float* col2, float* col3)
+	{
+		worldMatrix = Mat4x4(col0, col1, col2, col3);
+	}
 
 	//void setupFeedback(GLuint program);
 	void setupStruct();

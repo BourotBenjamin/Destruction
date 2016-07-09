@@ -16,6 +16,7 @@ protected:
 
 public:
 	Mat4x4(float val = 0);
+	Mat4x4(float* col0, float* col1, float* col2, float* col3);
 	Mat4x4(Mat4x4& m2);
 	~Mat4x4();
 

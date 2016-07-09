@@ -7,6 +7,8 @@ const float FPS = 60.f;
 
 int main(int argc, char ** argv)
 {
+
+
 	bool first = false;
 	QApplication app(argc, argv);
 	MainWidget glWid;
@@ -31,5 +33,6 @@ int main(int argc, char ** argv)
 			lastUpdate = timer.GetTimerValue();
 		}
 	}
+
 	return app.exec();
 }
