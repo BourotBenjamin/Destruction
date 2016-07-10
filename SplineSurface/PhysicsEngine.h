@@ -103,7 +103,7 @@ struct PhysXEng
 
 		gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
-		PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(PxVec3(0, -50, 0), PxVec3(0, 1, 0)), *gMaterial);
+		PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(PxVec3(0, -200, 0), PxVec3(0, 1, 0)), *gMaterial);
 		gScene->addActor(*groundPlane);
 
 		/*for (PxU32 i = 0; i<5; i++)

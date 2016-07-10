@@ -22,8 +22,8 @@ void MyGLWidget::initializeGL()
 	setMinimumSize(800, 800);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);
+	/*glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);*/
 	cube = std::shared_ptr<Objet>(new Objet());
 
 	setMouseTracking(true);
@@ -408,11 +408,11 @@ void MyGLWidget::updateWidget(float deltaTime)
 				//const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
 				PxTransform newPose = PxShapeExt::getGlobalPose(*shapes[j], *actors[i]);
 				auto t = PxTransform(newPose.p, newPose.q * PxQuat(PxIdentity));
-				/*
+				
 				destruction[i]->position.x = t.p.x;
 				destruction[i]->position.y = t.p.y;
 				destruction[i]->position.z = t.p.z;
-				*/
+				
 				Quaternion q;
 				q.u_.x = t.q.x;
 				q.u_.y = t.q.y;
@@ -730,7 +730,7 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		destructor.generateTriangulation3D(destruction, cube, baseObject);
 
 		//mpEngine.createStack(PxTransform(PxVec3(0, 0, 10.0f)), 10, 2.0f);
-		mpEngine.createDebris(destruction, 2.0f);
+		mpEngine.createDebris(destruction, 1.5f);
 	}
 }
 

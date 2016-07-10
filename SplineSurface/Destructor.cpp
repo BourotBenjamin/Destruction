@@ -78,7 +78,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 					K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
 					o->alive = true;
 					auto vertice = facet->facet_begin();
-					for (int i = 0; i < 3; i++, vertice++)
+					for (int i = 0; i < 3; i++, ++vertice)
 					{
 						//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
 						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
