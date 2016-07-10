@@ -14,27 +14,77 @@ struct PhysXEng
 	PxDefaultAllocator		gAllocator;
 	PxDefaultErrorCallback	gErrorCallback;
 
-	PxFoundation*			gFoundation = NULL;
-	PxPhysics*				gPhysics = NULL;
+	PxFoundation*	gFoundation;
+	PxPhysics*		gPhysics;
 
-	PxDefaultCpuDispatcher*	gDispatcher = NULL;
-	PxScene*				gScene = NULL;
+	PxDefaultCpuDispatcher*	gDispatcher;
+	PxScene*			gScene;
 
-	PxMaterial*				gMaterial = NULL;
+	PxMaterial*		gMaterial;
 
 	PxVisualDebuggerConnection*
-		gConnection = NULL;
+		gConnection;
 
-	PhysXEng() :gAllocator(), gErrorCallback(){}
+	PhysXEng() :gAllocator(), gErrorCallback()
+	{
+		gFoundation = NULL;
+		gPhysics = NULL;
+		gDispatcher = NULL;
+		gScene = NULL;
+		gMaterial = NULL;
+		gConnection = NULL;
+	}
+
+	PxReal stackZ = 10.0f;
+
+	PxRigidDynamic* createDynamic(const PxTransform& t, const PxGeometry& geometry, const PxVec3& velocity = PxVec3(0))
+	{
+		PxRigidDynamic* dynamic = PxCreateDynamic(*gPhysics, t, geometry, *gMaterial, 10.0f);
+		dynamic->setAngularDamping(0.5f);
+		dynamic->setLinearVelocity(velocity);
+		gScene->addActor(*dynamic);
+		return dynamic;
+	}
+
+	void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
+	{
+		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
+		for (PxU32 i = 0; i<size; i++)
+		{
+			for (PxU32 j = 0; j<size - i; j++)
+			{
+				PxTransform localTm(PxVec3(PxReal(j * 2) - PxReal(size - i), PxReal(i * 2 + 1), 0) * halfExtent);
+				PxRigidDynamic* body = gPhysics->createRigidDynamic(t.transform(localTm));
+				body->attachShape(*shape);
+				PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+				gScene->addActor(*body);
+			}
+		}
+		shape->release();
+	}
+
+	void createDebris(const std::vector<std::shared_ptr<Objet>>& debris, PxReal halfExtent)
+	{
+		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
+		
+		for(auto it = debris.begin(); it != debris.end(); ++it)//for (PxU32 j = 0; j<size - i; j++)
+		{
+			PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
+			
+			PxRigidDynamic* body = gPhysics->createRigidDynamic(t);
+			body->attachShape(*shape);
+			PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+			gScene->addActor(*body);
+		}
+		
+		shape->release();
+	}
 
 	void initPhysics(bool interactive)
 	{
 		gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
-		if (!gFoundation)
-			std::cout << "shiiit";
 		PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
-		gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale());// , true, profileZoneManager);
-		//gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, gAllocator, gErrorCallback, PxTolerancesScale(), true);
+		gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, profileZoneManager);
 
 		if (gPhysics->getPvdConnectionManager())
 		{

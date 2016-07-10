@@ -25,6 +25,7 @@ class MyGLWidget : public QGLWidget
 	//Q_OBJECT
 protected:
 
+
 	PhysXEng mpEngine;
 
 	std::shared_ptr<Objet> cube;
@@ -147,6 +148,7 @@ public:
 			glDeleteBuffers(1, &UBO);
 		if (lightUBO)
 			glDeleteBuffers(1, &lightUBO);
+		mpEngine.cleanupPhysics(true);
 	}
 	void eventWrapper(QEvent * e){ event(e); }
 	void updateWidget(float deltaTime);
