@@ -55,13 +55,13 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 			{
 				triangulationPoly.clear();
 				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
-				float posX, posY, posZ, nbVertices;
+				float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
 				auto verticeTr = triangulationPoly.vertices_begin();
 				while (verticeTr != triangulationPoly.vertices_end())
 				{
-					posX += CGAL::to_double(vertice->point().x());
-					posY += CGAL::to_double(vertice->point().y());
-					posZ += CGAL::to_double(vertice->point().z());
+					posX += CGAL::to_double(verticeTr->point().x());
+					posY += CGAL::to_double(verticeTr->point().y());
+					posZ += CGAL::to_double(verticeTr->point().z());
 					nbVertices += 1.0f;
 					++verticeTr;
 				}
@@ -111,13 +111,13 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 		int indice = 0;
 		baseObject->alive = false;
 		baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
-		float posX, posY, posZ, nbVertices;
+		float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
 		auto verticeP = baseObjectPoly.vertices_begin();
 		while (verticeP != baseObjectPoly.vertices_end())
 		{
-			posX += CGAL::to_double(vertice->point().x());
-			posY += CGAL::to_double(vertice->point().y());
-			posZ += CGAL::to_double(vertice->point().z());
+			posX += CGAL::to_double(verticeP->point().x());
+			posY += CGAL::to_double(verticeP->point().y());
+			posZ += CGAL::to_double(verticeP->point().z());
 			nbVertices += 1.0f;
 			++verticeP;
 		}
