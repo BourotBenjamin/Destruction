@@ -8,10 +8,11 @@
 class Quaternion
 {
 protected:
+
+public:
 	float a_;
 	Point u_;
 
-public:
 	Quaternion(){}
 	Quaternion(float angle, float x, float y, float z) :a_(std::cosf(angle / 2)), u_(x * std::sinf(angle / 2), y * std::sinf(angle / 2), z * std::sinf(angle / 2)){}
 	Quaternion(float angle, Point direction) : a_(std::cosf(angle / 2)), u_(direction * std::sinf(angle / 2)){}

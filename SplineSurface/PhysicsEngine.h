@@ -67,7 +67,7 @@ struct PhysXEng
 	{
 		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
 		
-		for(auto it = debris.begin(); it != debris.end(); ++it)//for (PxU32 j = 0; j<size - i; j++)
+		for(auto it = debris.begin(); it != debris.end()-1; ++it)//for (PxU32 j = 0; j<size - i; j++)
 		{
 			PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
 			
@@ -101,7 +101,7 @@ struct PhysXEng
 		sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 		gScene = gPhysics->createScene(sceneDesc);
 
-		gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+		gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
 		PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
 		gScene->addActor(*groundPlane);
@@ -117,6 +117,13 @@ struct PhysXEng
 	{
 		PX_UNUSED(interactive);
 		gScene->simulate(1.0f / 60.0f);
+		gScene->fetchResults(true);
+	}
+
+	void stepPhysics(float deltaTime)
+	{
+		//PX_UNUSED(interactive);
+		gScene->simulate(deltaTime);
 		gScene->fetchResults(true);
 	}
 

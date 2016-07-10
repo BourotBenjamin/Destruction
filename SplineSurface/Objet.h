@@ -190,9 +190,9 @@ public:
 	void render2(GLuint& program, GLuint shadowText, bool wireframe);
 	void render3(GLuint& program, GLuint shadowText, bool wireframe);
 
-	void setWorldMatrix(float* col0, float* col1, float* col2, float* col3)
+	void setWorldMatrix(float* mat)
 	{
-		worldMatrix = Mat4x4(col0, col1, col2, col3);
+		worldMatrix = Mat4x4(mat, true);
 	}
 
 	//void setupFeedback(GLuint program);
