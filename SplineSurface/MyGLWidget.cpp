@@ -22,8 +22,8 @@ void MyGLWidget::initializeGL()
 	setMinimumSize(800, 800);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	/*glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);*/
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
 	cube = std::shared_ptr<Objet>(new Objet());
 
 	setMouseTracking(true);
@@ -148,7 +148,7 @@ void MyGLWidget::initializeGL()
 	wall2->position = Point(-300, wallY, 0);
 	wall2->scale = Point(30.f, 30, 30);
 
-	wall3->position = Point(-200, wallY, 15);
+	wall3->position = Point(0, 0, 0);
 	wall3->scale = Point(30.f, 30, 30);
 
 	wall4->position = Point(0, wallY, -15);
@@ -384,7 +384,7 @@ void MyGLWidget::updateWidget(float deltaTime)
 			tmpCourbe.clear();
 		}
 	}
-	mpEngine.stepPhysics(true);
+	//mpEngine.stepPhysics(deltaTime);
 
 	PxScene* scene;
 	PxGetPhysics().getScenes(&scene, 1);
@@ -405,9 +405,24 @@ void MyGLWidget::updateWidget(float deltaTime)
 
 			for (PxU32 j = 0; j<nbShapes; j++)
 			{
-				const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
-				if (destruction.size() > 0)
-					destruction[i]->setWorldMatrix((float *)&(shapePose.column0), (float *)&(shapePose.column1), (float *)&(shapePose.column2), (float *)&(shapePose.column3));
+				//const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
+				PxTransform newPose = PxShapeExt::getGlobalPose(*shapes[j], *actors[i]);
+				auto t = PxTransform(newPose.p, newPose.q * PxQuat(PxIdentity));
+				
+				destruction[i]->position.x = t.p.x;
+				destruction[i]->position.y = t.p.y;
+				destruction[i]->position.z = t.p.z;
+
+				Quaternion q;
+				q.u_.x = t.q.x;
+				q.u_.y = t.q.y;
+				q.u_.z = t.q.z;
+				q.a_ = t.q.w;
+
+				destruction[i]->rotation = q.toEulerAngle();
+
+				/*if (destruction.size() > 0)
+					destruction[i]->setWorldMatrix((float *)&shapePose);*/
 			}
 		}
 	}
@@ -614,7 +629,7 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	for each (auto &piece in destruction)
 	{
 		if (piece->alive)
-			piece->render3(program, shadowTex, wireframe);
+			piece->render2(program, shadowTex, wireframe);
 	}
 }
 
@@ -707,8 +722,10 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 				p7(-1.0f, 1.0f, 1.0f), 
 				p8(1.0f, 1.0f, 1.0f);
 		Polyhedron_3 baseObject;
-		baseObject.make_tetrahedron(p1, p2, p4, p6);	
-		auto currentDestruction = destructor.generateTriangulation3D(cube, baseObject);
+		baseObject.make_tetrahedron(p1, p2, p4, p6);
+		std::vector<std::shared_ptr<Objet>> currentDestruction;
+		currentDestruction.reserve(365);
+		destructor.generateTriangulation3D(currentDestruction, cube, baseObject);
 
 		for each (std::shared_ptr<Objet> tetra in currentDestruction)
 		{
@@ -848,6 +865,8 @@ bool MyGLWidget::event(QEvent *e)
 			wireframe = false;
 		if (ke->key() == Qt::Key_Z)
 			canMove = !canMove;
+		if (ke->key() == Qt::Key_P)
+			mpEngine.stepPhysics(true);
 
 	}
 	if (e->type() == QEvent::KeyRelease) {
