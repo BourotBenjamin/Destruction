@@ -14,9 +14,9 @@ bool pointInside(Polyhedron_3 &polyhedron, K::Point_3 &query) {
 	return inside_tester(query) == CGAL::ON_BOUNDED_SIDE;
 }
 
-std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::shared_ptr<Objet> baseObject, Polyhedron_3& baseObjectPoly)
+void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& objets, std::shared_ptr<Objet>& baseObject, Polyhedron_3& baseObjectPoly)
 {
-	std::vector<std::shared_ptr<Objet>> objets;
+	//std::vector<std::shared_ptr<Objet>> objets;
 	triangulation.insert(pts3D.begin(), pts3D.end());
 	if (triangulation.is_valid())
 	{
@@ -55,7 +55,7 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 			{
 				triangulationPoly.clear();
 				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
-				float posX, posY, posZ, nbVertices;
+				float posX = 0, posY = 0, posZ = 0, nbVertices = 0;
 				auto verticeTr = triangulationPoly.vertices_begin();
 				while (verticeTr != triangulationPoly.vertices_end())
 				{
@@ -95,9 +95,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 				o->loadVerticesAndIndices(eboIndices, vboPos);
 				o->reload();
 				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-				o->position.x = posX;
-				o->position.y = posY;
-				o->position.z = posZ;
+				o->position.x = 0;// posX;
+				o->position.y = 0;//posY;
+				o->position.z = 0;//posZ;
 				objets.push_back(std::shared_ptr<Objet>(o));
 
 				vboPos.clear();
@@ -111,7 +111,7 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 		int indice = 0;
 		baseObject->alive = false;
 		baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
-		float posX, posY, posZ, nbVertices;
+		float posX = 0, posY = 0, posZ = 0, nbVertices = 0;
 		auto verticeP = baseObjectPoly.vertices_begin();
 		while (verticeP != baseObjectPoly.vertices_end())
 		{
@@ -148,9 +148,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 
 		if (baseObject->alive)
 		{
-			baseObject->position.x = posX;
-			baseObject->position.y = posY;
-			baseObject->position.z = posZ;
+			baseObject->position.x = 0;//posX;
+			baseObject->position.y = 0;//posY;
+			baseObject->position.z = 0;//posZ;
 			baseObject->loadVerticesAndIndices(eboIndices, vboPos);
 			baseObject->reload();
 			baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
@@ -167,7 +167,7 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 
 	pts3D.clear();
 	triangulation.clear();
-	return objets;
+	//return objets;
 }
 
 float getRandomCoords(int maxDist, float middle)
