@@ -408,11 +408,11 @@ void MyGLWidget::updateWidget(float deltaTime)
 				//const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
 				PxTransform newPose = PxShapeExt::getGlobalPose(*shapes[j], *actors[i]);
 				auto t = PxTransform(newPose.p, newPose.q * PxQuat(PxIdentity));
-				
+				/*
 				destruction[i]->position.x = t.p.x;
 				destruction[i]->position.y = t.p.y;
 				destruction[i]->position.z = t.p.z;
-
+				*/
 				Quaternion q;
 				q.u_.x = t.q.x;
 				q.u_.y = t.q.y;

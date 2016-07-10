@@ -95,9 +95,9 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 				o->loadVerticesAndIndices(eboIndices, vboPos);
 				o->reload();
 				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-				o->position.x = 0;// posX;
-				o->position.y = 0;//posY;
-				o->position.z = 0;//posZ;
+				o->position.x = posX;
+				o->position.y = posY;
+				o->position.z = posZ;
 				objets.push_back(std::shared_ptr<Objet>(o));
 
 				vboPos.clear();
@@ -148,9 +148,9 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 
 		if (baseObject->alive)
 		{
-			baseObject->position.x = 0;//posX;
-			baseObject->position.y = 0;//posY;
-			baseObject->position.z = 0;//posZ;
+			baseObject->position.x = posX;
+			baseObject->position.y = posY;
+			baseObject->position.z = posZ;
 			baseObject->loadVerticesAndIndices(eboIndices, vboPos);
 			baseObject->reload();
 			baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
