@@ -55,6 +55,19 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 			{
 				triangulationPoly.clear();
 				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
+				float posX, posY, posZ, nbVertices;
+				auto verticeTr = triangulationPoly.vertices_begin();
+				while (verticeTr != triangulationPoly.vertices_end())
+				{
+					posX += CGAL::to_double(vertice->point().x());
+					posY += CGAL::to_double(vertice->point().y());
+					posZ += CGAL::to_double(vertice->point().z());
+					nbVertices += 1.0f;
+					++verticeTr;
+				}
+				posX /= nbVertices;
+				posY /= nbVertices;
+				posZ /= nbVertices;
 				std::vector<float> normals;
 				Objet* o = new Objet();
 				o->alive = true;
@@ -68,9 +81,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 					for (int i = 0; i < 3; i++, vertice++)
 					{
 						//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
-						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
-						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
-						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
+						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
+						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
 						eboIndices.push_back(indice);
 						normals.push_back(CGAL::to_double(normal.x()));
 						normals.push_back(CGAL::to_double(normal.y()));
@@ -82,6 +95,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 				o->loadVerticesAndIndices(eboIndices, vboPos);
 				o->reload();
 				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+				o->position.x = posX;
+				o->position.y = posY;
+				o->position.z = posZ;
 				objets.push_back(std::shared_ptr<Objet>(o));
 
 				vboPos.clear();
@@ -95,6 +111,19 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 		int indice = 0;
 		baseObject->alive = false;
 		baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
+		float posX, posY, posZ, nbVertices;
+		auto verticeP = baseObjectPoly.vertices_begin();
+		while (verticeP != baseObjectPoly.vertices_end())
+		{
+			posX += CGAL::to_double(vertice->point().x());
+			posY += CGAL::to_double(vertice->point().y());
+			posZ += CGAL::to_double(vertice->point().z());
+			nbVertices += 1.0f;
+			++verticeP;
+		}
+		posX /= nbVertices;
+		posY /= nbVertices;
+		posZ /= nbVertices;
 		auto facet = baseObjectPoly.facets_begin();
 		while (facet != baseObjectPoly.facets_end())
 		{
@@ -104,9 +133,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 			for (int i = 0; i < 3; i++, vertice++)
 			{
 				//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
-				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
-				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
-				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
+				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
+				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
 				eboIndices.push_back(indice);
 				normals.push_back(CGAL::to_double(normal.x()));
 				normals.push_back(CGAL::to_double(normal.y()));
@@ -119,6 +148,9 @@ std::vector<std::shared_ptr<Objet>> Destructor::generateTriangulation3D(std::sha
 
 		if (baseObject->alive)
 		{
+			baseObject->position.x = posX;
+			baseObject->position.y = posY;
+			baseObject->position.z = posZ;
 			baseObject->loadVerticesAndIndices(eboIndices, vboPos);
 			baseObject->reload();
 			baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
