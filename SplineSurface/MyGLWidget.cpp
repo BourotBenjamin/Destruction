@@ -14,7 +14,7 @@ void MyGLWidget::initializeGL()
 	GLenum err = glewInit();
 
 	mpEngine.initPhysics(true);
-
+	destruction.reserve(365);
 	if (GLEW_OK != err)
 	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
@@ -724,15 +724,13 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		Polyhedron_3 baseObject;
 		baseObject.make_tetrahedron(p1, p2, p4, p6);
 		std::vector<std::shared_ptr<Objet>> currentDestruction;
-		currentDestruction.reserve(365);
-		destructor.generateTriangulation3D(currentDestruction, cube, baseObject);
+		//currentDestruction.reserve(365);
+		//cube->position = Point(0, 200, 0);
+		destruction.clear();
+		destructor.generateTriangulation3D(destruction, cube, baseObject);
 
-		for each (std::shared_ptr<Objet> tetra in currentDestruction)
-		{
-			destruction.push_back(tetra);
-		}
 		//mpEngine.createStack(PxTransform(PxVec3(0, 0, 10.0f)), 10, 2.0f);
-		mpEngine.createDebris(destruction, 0.1f);
+		mpEngine.createDebris(destruction, 2.0f);
 	}
 }
 
