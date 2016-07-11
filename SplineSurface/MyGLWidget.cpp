@@ -316,6 +316,21 @@ void MyGLWidget::initializeGL()
 
 }
 
+float mAccumulator = 0.0f;
+float mStepSize = 1.0f / 60.0f;
+
+bool  MyGLWidget::advance(PxReal dt)
+{
+	mAccumulator += dt;
+	if (mAccumulator < mStepSize)
+		return false;
+
+	mAccumulator -= mStepSize;
+
+	mpEngine.stepPhysics(true);
+	return true;
+}
+
 void MyGLWidget::updateWidget(float deltaTime)
 {
 
@@ -384,7 +399,7 @@ void MyGLWidget::updateWidget(float deltaTime)
 			tmpCourbe.clear();
 		}
 	}
-	//mpEngine.stepPhysics(deltaTime);
+	advance(deltaTime);
 
 	PxScene* scene;
 	PxGetPhysics().getScenes(&scene, 1);
@@ -419,7 +434,7 @@ void MyGLWidget::updateWidget(float deltaTime)
 				q.u_.z = t.q.z;
 				q.a_ = t.q.w;
 
-				destruction[i]->rotation = q.toEulerAngle();
+				//destruction[i]->rotation = q.toEulerAngle();
 
 				/*if (destruction.size() > 0)
 					destruction[i]->setWorldMatrix((float *)&shapePose);*/
@@ -730,7 +745,7 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		destructor.generateTriangulation3D(destruction, cube, baseObject);
 
 		//mpEngine.createStack(PxTransform(PxVec3(0, 0, 10.0f)), 10, 2.0f);
-		mpEngine.createDebris(destruction, 1.5f);
+		mpEngine.createDebris(destruction, 2.5f);
 	}
 }
 

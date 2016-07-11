@@ -16,6 +16,7 @@ struct PhysXEng
 
 	PxFoundation*	gFoundation;
 	PxPhysics*		gPhysics;
+	PxCooking*		gCooking;
 
 	PxDefaultCpuDispatcher*	gDispatcher;
 	PxScene*			gScene;
@@ -25,10 +26,12 @@ struct PhysXEng
 	PxVisualDebuggerConnection*
 		gConnection;
 
+
 	PhysXEng() :gAllocator(), gErrorCallback()
 	{
 		gFoundation = NULL;
 		gPhysics = NULL;
+		gCooking = NULL;
 		gDispatcher = NULL;
 		gScene = NULL;
 		gMaterial = NULL;
@@ -80,12 +83,79 @@ struct PhysXEng
 		shape->release();
 	}
 
+	void createDebrisFit(const std::vector<std::shared_ptr<Objet>>& debris, PxReal halfExtent)
+	{
+#if 1
+		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
+
+		for (auto it = debris.begin(); it != debris.end() - 1; ++it)//for (PxU32 j = 0; j<size - i; j++)
+		{
+
+			PxTolerancesScale scale;
+			PxCookingParams params(scale);
+			// disable mesh cleaning - perform mesh validation on development configurations
+			params.meshPreprocessParams |= PxMeshPreprocessingFlag::eDISABLE_CLEAN_MESH;
+			// disable edge precompute, edges are set for each triangle, slows contact generation
+			params.meshPreprocessParams |= PxMeshPreprocessingFlag::eDISABLE_ACTIVE_EDGES_PRECOMPUTE;
+			// lower hierarchy for internal mesh
+			params.meshCookingHint = PxMeshCookingHint::eCOOKING_PERFORMANCE;
+
+			gCooking->setParams(params);
+
+			PxTriangleMeshDesc meshDesc;
+			meshDesc.points.count = (*it)->vboPos.size()/3;
+			meshDesc.points.stride = sizeof(float)*3;
+			meshDesc.points.data = (*it)->vboPos.data();
+
+			meshDesc.triangles.count = (*it)->eboIndices.size()/3;
+			meshDesc.triangles.stride = 3 * sizeof(PxU32);
+			meshDesc.triangles.data = (*it)->eboIndices.data();
+
+#ifdef _DEBUG
+			// mesh should be validated before cooked without the mesh cleaning
+			bool res = gCooking->validateTriangleMesh(meshDesc);
+			PX_ASSERT(res);
+#endif
+
+			PxTriangleMesh* aTriangleMesh = gCooking->createTriangleMesh(meshDesc,
+				gPhysics->getPhysicsInsertionCallback());
+		
+			PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
+			//PxTriangleMeshGeometry meshGeom(aTriangleMesh);
+			//PxShape* shape = gPhysics->createShape(meshGeom, *gMaterial, true);
+			PxRigidDynamic* body = gPhysics->createRigidDynamic(t);
+			//PxRigidDynamic* body = PxCreateDynamic(*gPhysics, t, meshGeom, *gMaterial, 10.0f);
+			body->createShape(PxTriangleMeshGeometry(aTriangleMesh), *gMaterial /**mStandardMaterial*/);
+			//body->attachShape(*shape);
+			PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+			gScene->addActor(*body);
+		}
+#endif
+#if 0
+		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
+
+		for (auto it = debris.begin(); it != debris.end() - 1; ++it)//for (PxU32 j = 0; j<size - i; j++)
+		{
+			PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
+
+			PxRigidDynamic* body = gPhysics->createRigidDynamic(t);
+			Point vbo = Point((*it)->vboPos[0], (*it)->vboPos[1], (*it)->vboPos[2]);
+			Point ray = vbo + (*it)->position - (*it)->circum;
+			PxShape* shape = gPhysics->createShape(PxSphereGeometry(ray.magnitude()), *gMaterial);
+			body->attachShape(*shape);
+			PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+			gScene->addActor(*body);
+		}
+#endif
+		shape->release();
+	}
+
 	void initPhysics(bool interactive)
 	{
 		gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 		PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
 		gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, profileZoneManager);
-
+		gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, PxCookingParams(PxTolerancesScale()));
 		if (gPhysics->getPvdConnectionManager())
 		{
 			gPhysics->getVisualDebugger()->setVisualizeConstraints(true);

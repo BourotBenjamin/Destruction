@@ -1340,6 +1340,8 @@ void Objet::render(GLuint& program, GLuint shadowText)
 
 void Objet::render2(GLuint& program, GLuint shadowText, bool wireframe)
 {
+	if (!alive)
+		return;
 	auto worldLocation = glGetUniformLocation(program, "u_worldMatrix");
 
 	glBindVertexArray(VAO);
