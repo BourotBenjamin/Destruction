@@ -74,8 +74,8 @@ void main()
     vec3 specularColor = vec3(0,0,0);//u_specular * );
 
     vec3 normal = fs_in.Normal;
-    float shadow = ShadowCalculation(fs_in.FragPosLightSpace, normal);
-
+    //float shadow = ShadowCalculation(fs_in.FragPosLightSpace, normal);
+    float shadow = 0;
     float distance = length( fs_in.lightPos - fs_in.FragPos.xyz );
     // Ambient
 
