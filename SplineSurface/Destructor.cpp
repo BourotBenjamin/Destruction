@@ -136,7 +136,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 			auto facet = baseObjectPoly.facets_begin();
 			while (facet != baseObjectPoly.facets_end())
 			{
-				K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
+				K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, baseObjectPoly);
 				baseObject->alive = true;
 				auto vertice = facet->facet_begin();
 				for (int i = 0; i < 3; i++, vertice++)
