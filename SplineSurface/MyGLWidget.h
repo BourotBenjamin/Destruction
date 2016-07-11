@@ -156,6 +156,10 @@ public:
 	void updateWidget(float deltaTime);
 	void MyGLWidget::createPyramid();
 	bool advance(PxReal dt);
+
+	float sign(const Point& p1, const Point& p2, const Point& p3);
+
+	bool PointInTriangle(const Point& pt, const Point& v1, const Point& v2, const Point& v3);
 //private slots:
 //void createBezier() { listCourbes.push_back(std::shared_ptr<Bezier>(new Bezier("courbeVertex.vs", "courbeFragment.fs"))); repaint(); }
 //void createSpline() { listCourbes.push_back(std::shared_ptr<Spline>(new Spline("courbeVertex.vs", "courbeFragment.fs"))); repaint(); }

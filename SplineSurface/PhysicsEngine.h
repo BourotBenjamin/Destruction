@@ -205,6 +205,7 @@ struct PhysXEng
 		PxProfileZoneManager* profileZoneManager = gPhysics->getProfileZoneManager();
 		if (gConnection != NULL)
 			gConnection->release();
+		gCooking->release();
 		gPhysics->release();
 		profileZoneManager->release();
 		gFoundation->release();

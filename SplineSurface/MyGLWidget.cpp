@@ -2,6 +2,8 @@
 #include <GL\glew.h>
 #include "MyGLWidget.h"
 #include <QtGui\qevent.h>
+#include <glm\mat4x4.hpp>
+#include <glm\glm.hpp>
 
 float POSX = 80.0f, POSY = -80.0f, POSZ = -80.0f;
 //float POSX = -90.0f, POSY = -90.0f, POSZ = -90.0f;
@@ -314,7 +316,7 @@ void MyGLWidget::initializeGL()
 	edge->computePointInCourbe();
 	vertex->computePointInCourbe();*/
 	createPyramid();
-
+	pyramid->setupStruct();
 }
 
 float mAccumulator = 0.0f;
@@ -435,7 +437,7 @@ void MyGLWidget::updateWidget(float deltaTime)
 				q.u_.z = t.q.z;
 				q.a_ = t.q.w;
 
-				//destruction[i]->rotation = q.toEulerAngle();
+				destruction[i]->rotation = q.toEulerAngle();
 
 				/*if (destruction.size() > 0)
 					destruction[i]->setWorldMatrix((float *)&shapePose);*/
@@ -455,17 +457,17 @@ void MyGLWidget::paintGL()
 	glClearColor(1.0f, 1.0f, 1.0f,  1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	if (persp)
-	{
+	/*if (persp)
+	{*/
 		projection.Perspective(45.f, width(), height(), 0.1f, 1000.f);
-	}
-	else
-	{
-		// Orthographic camera
-		ortho = 15.0;
-		//modelView.identity();
-		projection.Orthographic(-ortho, ortho, ortho, -ortho, 0.1, 10000);
-	}
+	//}
+	//else
+	//{
+	//	// Orthographic camera
+	//	ortho = 15.0;
+	//	//modelView.identity();
+	//	projection.Orthographic(-ortho, ortho, ortho, -ortho, 0.1, 10000);
+	//}
 	
 	GLfloat near_plane = 0.1f, far_plane = 70.f;
 	float spotDim = 50.f;
@@ -651,82 +653,97 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	}
 }
 
+float MyGLWidget::sign(const Point& p1, const Point& p2, const Point& p3)
+{
+	return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
+
+bool MyGLWidget::PointInTriangle(const Point& pt, const Point& v1, const Point& v2, const Point& v3)
+{
+	bool b1, b2, b3;
+
+	b1 = sign(pt, v1, v2) < 0.0f;
+	b2 = sign(pt, v2, v3) < 0.0f;
+	b3 = sign(pt, v3, v1) < 0.0f;
+
+	return ((b1 == b2) && (b2 == b3));
+}
+
+std::vector<float> vboPos;
+std::vector<unsigned int> eboIndices;
+std::vector<float> texcoords;
+std::vector<float> normals;
+
 void MyGLWidget::mousePressEvent(QMouseEvent * e)
 {
 	if (e->button() == Qt::MouseButton::RightButton)
 		rightClick = true;
 
 	if (e->button() == Qt::MouseButton::LeftButton) {
-		// && tmpCourbe.size() != 0) {
-		/*Point p;
 		
-		if (tmpCourbe.size() == 1 || tmpCourbe.size() == 3) {
-			p.x = (e->x() / (width() / 2.0) - 1)* -ortho;
-			p.y = (e->y() / (height() / 2.0) - 1)* -ortho * 2;
+		//get position of the screen relative
+		auto xm = e->x();
+		auto ym = e->y();
+		float x = (2.0f * e->x()) / width() - 1.0f;
+		float y = 1.0f - (2.0f * e->y()) / height();
+		float z = 1.0f;
+		glm::vec3 ray_nds = glm::vec3(x, y, z);
+		glm::vec4 ray_clip = glm::vec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
+
+		//fuck you glm for your awesome constructor
+		float * p = projection.getMatrix();
+		glm::mat4 proj = glm::mat4(*p, *(p + 1), *(p + 2), *(p + 3), *(p + 4), *(p + 5), *(p + 6), *(p + 7), *(p + 8), *(p + 9), *(p + 10), *(p + 11), *(p + 12), *(p + 13), *(p + 14), *(p + 15));
+		glm::vec4 ray_eye = glm::inverse(proj) * ray_clip;
+		ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
+
+		//same here
+		p = modelView.getMatrix();
+		glm::mat4 view_matrix = glm::mat4(*p, *(p + 1), *(p + 2), *(p + 3), *(p + 4), *(p + 5), *(p + 6), *(p + 7), *(p + 8), *(p + 9), *(p + 10), *(p + 11), *(p + 12), *(p + 13), *(p + 14), *(p + 15));
+		auto ray = glm::inverse(view_matrix) * ray_eye;
+		glm::vec3 ray_wor = glm::vec3(ray.x, ray.y, ray.z);
+		// don't forget to normalise the vector at some point
+		ray_wor = glm::normalize(ray_wor);
+
+		Point d = Point(ray_wor.x, ray_wor.y, ray_wor.z);
+		Point hit = Point (9999, 9999, 9999);
+		bool touch = false;
+
+		for (int i = 0; i < eboIndices.size(); i += 3)
+		{
+			//get coordinate of the 3 point of the triangle and the face normal
+			Point p1 = Point(vboPos[eboIndices[i] * 3], vboPos[eboIndices[i] * 3 + 1], vboPos[eboIndices[i] * 3 + 2]) + pyramid->position;
+			Point p2 = Point(vboPos[eboIndices[i + 1] * 3], vboPos[eboIndices[i + 1] * 3 + 1], vboPos[eboIndices[i + 1] * 3 + 2]) + pyramid->position;
+			Point p3 = Point(vboPos[eboIndices[i + 2] * 3], vboPos[eboIndices[i + 2] * 3 + 1], vboPos[eboIndices[i + 2] * 3 + 2]) + pyramid->position;
+
+			Point p = (p1 + p2 + p3) / 3;
+
+			Point n = Point(normals[eboIndices[i]*3], normals[eboIndices[i]*3+1], normals[eboIndices[i]*3+2]);
+			float distance = -Point::scalar(p1, n);
+			std::cout << distance << "<\n";
+			//t is the coeficient of the ray equation to get the hitting point
+			float t = -((distance + Point::scalar(cam.getPos(), n)) / Point::scalar(d, n));
+
+			if (t != 0)
+			{
+				Point target = cam.getPos() + d * t;
+				if (PointInTriangle(target, p1, p2, p3))
+				{
+					if ((target - cam.getPos()).magnitude() < (hit - cam.getPos()).magnitude())
+						hit = target;
+				}
+			}	
 		}
-		else {
-			p.y = (e->y() / (height() / 2.0) - 1)* -ortho * 2;
-			p.z = (e->x() / (width() / 2.0) - 1)* -ortho;
+
+
+		if (hit.x != 9999)
+			destructor.generatePoints(hit.x, hit.y, hit.z, MAX_DIST, NB_POINTS);
+		else
+		{
+			std::cout << "Fuck you you missed the big pyramid!!! \n";
+			return;
 		}
-
-		
-
-		switch (tmpCourbe.size()) {
-		case 1:
-			tmpCourbe.back()->pushPoint(p);
-			tmpCourbe.back()->computePointInCourbe();
-			break;
-		case 2:
-			if (tmpCourbe.back()->getLength() == 0)
-			{
-				//cam.orienter(0, 90);
-				// on prend le premier point de la première courbe comme premier point de la deuxième.
-				tmpCourbe.back()->pushPoint(tmpCourbe[0]->getPointInCourbe().front());
-				tmpCourbe.back()->computePointInCourbe();
-			}
-			p.x = tmpCourbe.back()->getPointAt(0).x;
-			tmpCourbe.back()->pushPoint(/*tmpCourbe.back()->getPointAt(0) +*//* p);
-			tmpCourbe.back()->computePointInCourbe();
-			break;
-
-		case 3:
-			// on prend le dernier point de la deuxième courbe comme premier point de la 3éme.
-			if (tmpCourbe.back()->getLength() == 0) 
-			{
-				tmpCourbe.back()->pushPoint(tmpCourbe[1]->getPointInCourbe().back());
-				tmpCourbe.back()->computePointInCourbe();
-			}
-			p.z = tmpCourbe.back()->getPointAt(0).z;
-			tmpCourbe.back()->pushPoint(/*tmpCourbe.back()->getPointAt(0) +*//* p);
-			tmpCourbe.back()->computePointInCourbe();
-			if (tmpCourbe[0]->getLength() == tmpCourbe.back()->getLength())
-			{
-				tmpCourbe.push_back(std::unique_ptr<Bezier>(new Bezier("courbeVertex.vs", "courbeFragment.fs")));
-			}
 			
-			break;
-
-		case 4:
-
-			if (tmpCourbe.back()->getLength() == 0)
-			{
-				tmpCourbe.back()->pushPoint(tmpCourbe[0]->getPointInCourbe().back());
-				tmpCourbe.back()->computePointInCourbe();
-			}
-			p.x = tmpCourbe.back()->getPointAt(0).x;
-			tmpCourbe.back()->pushPoint(/*tmpCourbe.back()->getPointAt(0) +*//* p);
-			tmpCourbe.back()->computePointInCourbe();
-			if (tmpCourbe[1]->getLength() == tmpCourbe[1]->getLength() - 1)
-			{
-				tmpCourbe.back()->pushPoint(tmpCourbe[2]->getPointInCourbe().back());
-				tmpCourbe.back()->computePointInCourbe();
-				persp = true;
-			}
-			break;
-
-		}*/
-
-		destructor.generatePoints(POSX, POSY, POSZ, MAX_DIST, NB_POINTS);
+		std::cout << "hit point: " << hit.x << " " << hit.y << " " << hit.z << "<\n";
 
 		//std::shared_ptr<Polyhedron_3> baseObject = floor->generatePolyhedron();
 		//auto currentDestruction = destructor.generateTriangulation3D(cube, *baseObject);
@@ -740,14 +757,13 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 	}
 }
 
+
+
 void MyGLWidget::createPyramid()
 {
 	pyramid = new Objet();
 	pyramidPoly = new Polyhedron_3();
-	std::vector<float> vboPos;
-	std::vector<unsigned int> eboIndices;
-	std::vector<float> texcoords;
-	std::vector<float> normals;
+	
 	std::vector<tinyobj::material_t> materials;
 	pyramid->alive = true;
 	int indice = 0;
