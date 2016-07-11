@@ -16,6 +16,8 @@ bool pointInside(Polyhedron_3 &polyhedron, K::Point_3 &query) {
 
 void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& objets, std::shared_ptr<Objet>& baseObject, Polyhedron_3& baseObjectPoly)
 {
+	std::cout << objets.size() << std::endl;
+	//objets.clear();
 	//std::vector<std::shared_ptr<Objet>> objets;
 	triangulation.insert(pts3D.begin(), pts3D.end());
 	if (triangulation.is_valid())
@@ -170,34 +172,35 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 
 	pts3D.clear();
 	triangulation.clear();
+	std::cout << objets.size() << std::endl;
 	//return objets;
 }
 
 float getRandomCoords(int maxDist, float middle)
 {
-	int dist = maxDist / 10;
+	int dist = maxDist / 10, tmp;
 	while (dist <= maxDist)
 	{
-		if (rand() % 3 > 1)
-			return rand() % (dist * 2) + middle - dist;
+		if (rand() % 2 > 0)
+		{
+			tmp = rand() % dist;
+			if (rand() % 2 > 0)
+				return  middle + dist;
+			else
+				return  middle - dist;
+		}
 		dist *= 1.5;
 	}
-	return rand() % (dist * 2) + middle - dist;
+	tmp = rand() % dist;
+	if (rand() % 2 > 0)
+		return  middle + dist;
+	else
+		return  middle - dist;
 }
 
 void Destructor::generatePoints(float x, float y, float z, int maxDist, int nbPoints)
 {
-	/*
-	pts3D.push_back(Point_3(-1.0f, -1.0f, -1.0f));
-	pts3D.push_back(Point_3(-1.0f,  1.0f, -1.0f));
-	pts3D.push_back(Point_3(1.0f,  -1.0f, -1.0f));
-	pts3D.push_back(Point_3(1.0f,   1.0f, -1.0f));
-	pts3D.push_back(Point_3(-1.0f, -1.0f,  1.0f));
-	pts3D.push_back(Point_3(-1.0f,  1.0f,  1.0f));
-	pts3D.push_back(Point_3(1.0f,  -1.0f,  1.0f));
-	pts3D.push_back(Point_3(1.0f,   1.0f,  1.0f));
-	*/
-
+	pts3D.clear();
 	int i = 0;
 	float x2, y2, z2;
 	while (i < nbPoints)

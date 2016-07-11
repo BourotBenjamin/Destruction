@@ -135,8 +135,9 @@ protected:
 	void mouseReleaseEvent(QMouseEvent * e);
 	void resizeEvent(QResizeEvent *e);
 	bool event(QEvent *e);
-	Objet* pyramid;
-	Polyhedron_3* pyramidPoly;
+	Objet* pyramid, *inactiveP1, *inactiveP2;
+	Polyhedron_3* pyramidPoly, *inactiveP1Poly, *inactiveP2Poly;
+	bool usingP2 = false;
 	
 
 public:
