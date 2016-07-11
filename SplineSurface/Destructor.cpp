@@ -103,6 +103,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 				o->position.x = posX;
 				o->position.y = posY;
 				o->position.z = posZ;
+				o->rotation = baseObject->rotation;
 				objets.push_back(std::shared_ptr<Objet>(o));
 
 				vboPos.clear();
