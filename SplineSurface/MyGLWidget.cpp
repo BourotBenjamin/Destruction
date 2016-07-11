@@ -402,7 +402,6 @@ void MyGLWidget::updateWidget(float deltaTime)
 			tmpCourbe.clear();
 		}
 	}
-	advance(deltaTime);
 
 	PxScene* scene;
 	PxGetPhysics().getScenes(&scene, 1);
@@ -445,6 +444,7 @@ void MyGLWidget::updateWidget(float deltaTime)
 		}
 	}
 
+	advance(deltaTime);
 	cam.lookAt(modelView);
 }
 
@@ -596,9 +596,9 @@ void MyGLWidget::paintGL()
 	glUseProgram(program);
 	lamp->render(program);
 	
-	//program = skyboxShader->getProgramID();
-	//glUseProgram(program);
-	//skybox->renderCubeMap(program);
+	program = skyboxShader->getProgramID();
+	glUseProgram(program);
+	skybox->renderCubeMap(program);
 
 
 	//timer.End();
@@ -641,9 +641,9 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	//cat->render(program, shadowTex);
 	//cyborg->render(program, shadowTex);
 
-	floor->render2(program, shadowTex, wireframe);
-	wall3->render2(program, shadowTex, wireframe);
-	wall2->render2(program, shadowTex, wireframe);
+	//floor->render2(program, shadowTex, wireframe);
+	//wall3->render2(program, shadowTex, wireframe);
+	//wall2->render2(program, shadowTex, wireframe);
 	if (pyramid->alive)
 		pyramid->render2(program, shadowTex, wireframe);
 	for each (auto &piece in destruction)
@@ -703,16 +703,16 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		Point hit = Point (9999, 9999, 9999);
 		bool touch = false;
 
-		for (int i = 0; i < eboIndices.size(); i += 3)
+		for (int i = 0; i < pyramid->eboIndices.size(); i += 3)
 		{
 			//get coordinate of the 3 point of the triangle and the face normal
-			Point p1 = Point(vboPos[eboIndices[i] * 3], vboPos[eboIndices[i] * 3 + 1], vboPos[eboIndices[i] * 3 + 2]) + pyramid->position;
-			Point p2 = Point(vboPos[eboIndices[i + 1] * 3], vboPos[eboIndices[i + 1] * 3 + 1], vboPos[eboIndices[i + 1] * 3 + 2]) + pyramid->position;
-			Point p3 = Point(vboPos[eboIndices[i + 2] * 3], vboPos[eboIndices[i + 2] * 3 + 1], vboPos[eboIndices[i + 2] * 3 + 2]) + pyramid->position;
+			Point p1 = Point(pyramid->vboPos[pyramid->eboIndices[i] * 3], pyramid->vboPos[pyramid->eboIndices[i] * 3 + 1], pyramid->vboPos[pyramid->eboIndices[i] * 3 + 2]) + pyramid->position;
+			Point p2 = Point(pyramid->vboPos[pyramid->eboIndices[i + 1] * 3], pyramid->vboPos[pyramid->eboIndices[i + 1] * 3 + 1], pyramid->vboPos[pyramid->eboIndices[i + 1] * 3 + 2]) + pyramid->position;
+			Point p3 = Point(pyramid->vboPos[pyramid->eboIndices[i + 2] * 3], pyramid->vboPos[pyramid->eboIndices[i + 2] * 3 + 1], pyramid->vboPos[pyramid->eboIndices[i + 2] * 3 + 2]) + pyramid->position;
 
 			Point p = (p1 + p2 + p3) / 3;
 
-			Point n = Point(normals[eboIndices[i]*3], normals[eboIndices[i]*3+1], normals[eboIndices[i]*3+2]);
+			Point n = Point(pyramid->normals[pyramid->eboIndices[i] * 3], pyramid->normals[pyramid->eboIndices[i] * 3 + 1], pyramid->normals[pyramid->eboIndices[i] * 3 + 2]);
 			float distance = -Point::scalar(p1, n);
 			std::cout << distance << "<\n";
 			//t is the coeficient of the ray equation to get the hitting point
@@ -797,6 +797,7 @@ void MyGLWidget::createPyramid()
 	inactiveP1->loadVerticesAndIndices(eboIndices, vboPos);
 	inactiveP1->reload();
 	inactiveP1->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+	inactiveP1->normals = normals;
 	pyramid = inactiveP1;
 	pyramidPoly = inactiveP1Poly;
 	vboPos.clear();
@@ -836,6 +837,7 @@ void MyGLWidget::createPyramid()
 	inactiveP2->loadVerticesAndIndices(eboIndices, vboPos);
 	inactiveP2->reload();
 	inactiveP2->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+	inactiveP2->normals = normals;
 }
 
 void MyGLWidget::mouseMoveEvent(QMouseEvent * e)

@@ -1336,6 +1336,7 @@ void Objet::render(GLuint& program, GLuint shadowText)
 	glDrawElements(GL_TRIANGLES, ElementCount, GL_UNSIGNED_INT, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void Objet::render2(GLuint& program, GLuint shadowText, bool wireframe)

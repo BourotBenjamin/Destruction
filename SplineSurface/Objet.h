@@ -159,6 +159,8 @@ public:
 
 	std::vector<uint32_t> eboIndices;
 	std::vector<float> vboPos;
+	std::vector<float> normals;
+
 
 	Point circum;
 
