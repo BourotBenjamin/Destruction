@@ -135,8 +135,8 @@ protected:
 	void mouseReleaseEvent(QMouseEvent * e);
 	void resizeEvent(QResizeEvent *e);
 	bool event(QEvent *e);
-	Objet* pyramid, *inactiveP1, *inactiveP2;
-	Polyhedron_3* pyramidPoly, *inactiveP1Poly, *inactiveP2Poly;
+	std::shared_ptr<Objet> pyramid, inactiveP1, inactiveP2;
+	std::shared_ptr<Polyhedron_3> pyramidPoly, inactiveP1Poly, inactiveP2Poly;
 	bool usingP2 = false;
 	
 

@@ -163,7 +163,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 				baseObject->loadVerticesAndIndices(eboIndices, vboPos);
 				baseObject->reload();
 				baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-				objets.push_back(baseObject);
+				//objets.push_back(baseObject);
 			}
 		vboPos.clear();
 		eboIndices.clear();
