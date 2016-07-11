@@ -66,11 +66,11 @@ struct PhysXEng
 		shape->release();
 	}
 
-	void createDebris(const std::vector<std::shared_ptr<Objet>>& debris, PxReal halfExtent)
+	void createDebris(const std::vector<std::shared_ptr<Objet>>& debris, PxReal halfExtent, int firstIndice)
 	{
 		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
 		
-		for(auto it = debris.begin(); it != debris.end()-1; ++it)//for (PxU32 j = 0; j<size - i; j++)
+		for (auto it = debris.begin() + firstIndice; it != debris.end() - 1; ++it)//for (PxU32 j = 0; j<size - i; j++)
 		{
 			PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
 			

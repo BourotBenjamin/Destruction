@@ -5,9 +5,9 @@
 #include <glm\mat4x4.hpp>
 #include <glm\glm.hpp>
 
-float POSX = 80.0f, POSY = -80.0f, POSZ = -80.0f;
+float POSX = 80.0f, POSY = -40.0f, POSZ = -80.0f;
 //float POSX = -90.0f, POSY = -90.0f, POSZ = -90.0f;
-float MAX_DIST = 100.0;
+float MAX_DIST = 60.0;
 int NB_POINTS = 100;
 
 
@@ -669,11 +669,6 @@ bool MyGLWidget::PointInTriangle(const Point& pt, const Point& v1, const Point& 
 	return ((b1 == b2) && (b2 == b3));
 }
 
-std::vector<float> vboPos;
-std::vector<unsigned int> eboIndices;
-std::vector<float> texcoords;
-std::vector<float> normals;
-
 void MyGLWidget::mousePressEvent(QMouseEvent * e)
 {
 	if (e->button() == Qt::MouseButton::RightButton)
@@ -748,12 +743,13 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		//std::shared_ptr<Polyhedron_3> baseObject = floor->generatePolyhedron();
 		//auto currentDestruction = destructor.generateTriangulation3D(cube, *baseObject);
 
-		destruction.clear();
+		//destruction.clear();
+		int size = destruction.size();
 		destructor.generateTriangulation3D(destruction, cube, *pyramidPoly);
 		pyramid->alive = false;
 
 		//mpEngine.createStack(PxTransform(PxVec3(0, 0, 10.0f)), 10, 2.0f);
-		mpEngine.createDebris(destruction, 2.5f);
+		mpEngine.createDebris(destruction, 2.5f, size);
 	}
 }
 
@@ -764,19 +760,25 @@ void MyGLWidget::createPyramid()
 	pyramid = new Objet();
 	pyramidPoly = new Polyhedron_3();
 	
+	std::vector<float> vboPos;
+	std::vector<unsigned int> eboIndices;
+	std::vector<float> texcoords;
+	std::vector<float> normals;
 	std::vector<tinyobj::material_t> materials;
-	pyramid->alive = true;
+	inactiveP1 = new Objet();
+	inactiveP1Poly = new Polyhedron_3();
+	inactiveP1->alive = true;
 	int indice = 0;
-	K::Point_3 p1(-100.0f, -100.0f, -100.0f),
-		p2(100.0f, -100.0f, -100.0f),
-		p4(100.0f, 100.0f, -100.0f),
-		p6(100.0f, -100.0f, 100.0f);
-	pyramidPoly->make_tetrahedron(p1, p2, p4, p6);
-	auto facet = pyramidPoly->facets_begin();
-	while (facet != pyramidPoly->facets_end())
+	K::Point_3 p11(-100.0f, -100.0f, -100.0f),
+		p12(100.0f, -100.0f, -100.0f),
+		p13(100.0f, 100.0f, -100.0f),
+		p14(100.0f, -100.0f, 100.0f);
+	inactiveP1Poly->make_tetrahedron(p11, p12, p13, p14);
+	auto facet = inactiveP1Poly->facets_begin();
+	while (facet != inactiveP1Poly->facets_end())
 	{
-		K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, *pyramidPoly);
-		pyramid->alive = true;
+		K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, *inactiveP1Poly);
+		inactiveP1->alive = true;
 		auto vertice = facet->facet_begin();
 		for (int i = 0; i < 3; i++, ++vertice)
 		{
@@ -792,9 +794,48 @@ void MyGLWidget::createPyramid()
 		}
 		++facet;
 	}
-	pyramid->loadVerticesAndIndices(eboIndices, vboPos);
-	pyramid->reload();
-	pyramid->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+	inactiveP1->loadVerticesAndIndices(eboIndices, vboPos);
+	inactiveP1->reload();
+	inactiveP1->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+	pyramid = inactiveP1;
+	pyramidPoly = inactiveP1Poly;
+	vboPos.clear();
+	eboIndices.clear();
+	normals.clear();
+
+	inactiveP2 = new Objet();
+	inactiveP2Poly = new Polyhedron_3();
+	inactiveP2->alive = true;
+	indice = 0;
+	K::Point_3 p21(400.0f, -100.0f, -100.0f),
+		p22(600.0f, -100.0f, -100.0f),
+		p23(600.0f, 100.0f, -100.0f),
+		p24(600.0f, -100.0f, 100.0f);
+	inactiveP2Poly->make_tetrahedron(p21, p22, p23, p24);
+	facet = inactiveP2Poly->facets_begin();
+	while (facet != inactiveP2Poly->facets_end())
+	{
+		K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, *inactiveP2Poly);
+		inactiveP2->alive = true;
+		auto vertice = facet->facet_begin();
+		for (int i = 0; i < 3; i++, ++vertice)
+		{
+			//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
+			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
+			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
+			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+			eboIndices.push_back(indice);
+			normals.push_back(CGAL::to_double(normal.x()));
+			normals.push_back(CGAL::to_double(normal.y()));
+			normals.push_back(CGAL::to_double(normal.z()));
+			++indice;
+		}
+		++facet;
+	}
+	//inactiveP2->position = Point(500.0, 0.0, 0.0);
+	inactiveP2->loadVerticesAndIndices(eboIndices, vboPos);
+	inactiveP2->reload();
+	inactiveP2->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
 }
 
 void MyGLWidget::mouseMoveEvent(QMouseEvent * e)
@@ -968,6 +1009,33 @@ bool MyGLWidget::event(QEvent *e)
 			subdiv = true;
 		if (ke->key() == Qt::Key_E)
 			canMove = !canMove;
+		if (ke->key() == Qt::Key_R)
+		{
+			if (usingP2)
+			{
+				usingP2 = false;
+				POSX = 80.0f;
+				POSY = -40.0f;
+				POSZ = -80.0f;
+				pyramid = inactiveP1;
+				pyramidPoly = inactiveP1Poly;
+				MAX_DIST = 60.0;
+				NB_POINTS = 100.0;
+				std::cout << "P1" << std::endl;
+			}
+			else
+			{
+				usingP2 = true;
+				POSX = 580.0f;
+				POSY = -40.0f;
+				POSZ = -80.0f;
+				pyramid = inactiveP2;
+				pyramidPoly = inactiveP2Poly;
+				MAX_DIST = 300.0;
+				NB_POINTS = 50.0;
+				std::cout << "P2" << std::endl;
+			}
+		}
 	}
 
 	return QWidget::event(e);
