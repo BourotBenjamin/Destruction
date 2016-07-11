@@ -822,7 +822,6 @@ void MyGLWidget::createPyramid()
 		auto vertice = facet->facet_begin();
 		for (int i = 0; i < 3; i++, ++vertice)
 		{
-			//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
 			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
 			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
 			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
@@ -834,7 +833,6 @@ void MyGLWidget::createPyramid()
 		}
 		++facet;
 	}
-	//inactiveP2->position = Point(500.0, 0.0, 0.0);
 	inactiveP2->loadVerticesAndIndices(eboIndices, vboPos);
 	inactiveP2->reload();
 	inactiveP2->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
@@ -1035,7 +1033,7 @@ bool MyGLWidget::event(QEvent *e)
 				pyramid = inactiveP2;
 				pyramidPoly = inactiveP2Poly;
 				MAX_DIST = 300.0;
-				NB_POINTS = 50.0;
+				NB_POINTS = 20.0;
 				std::cout << "P2" << std::endl;
 			}
 		}
