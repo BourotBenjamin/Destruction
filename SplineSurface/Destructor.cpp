@@ -27,7 +27,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 		std::vector<float> vboPos;
 		std::vector<unsigned int> eboIndices;
 		std::vector<float> texcoords;
-		std::vector<float> normals;
+		std::vector<float> normals, normalsFace;
 		std::vector<tinyobj::material_t> materials;
 
 		Polyhedron_3 triangulationPoly;
@@ -74,7 +74,6 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 					posX /= nbVertices;
 					posY /= nbVertices;
 					posZ /= nbVertices;
-					std::vector<float> normals;
 					Objet* o = new Objet();
 					o->alive = true;
 					o->circum = Point(CGAL::to_double(tetra->circumcenter().x()), CGAL::to_double(tetra->circumcenter().y()), CGAL::to_double(tetra->circumcenter().z()));
@@ -87,7 +86,6 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 						auto vertice = facet->facet_begin();
 						for (int i = 0; i < 3; i++, ++vertice)
 						{
-							//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
 							vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
 							vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
 							vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
@@ -136,19 +134,18 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 			auto facet = baseObjectPoly.facets_begin();
 			while (facet != baseObjectPoly.facets_end())
 			{
-				K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, baseObjectPoly);
+				K::Vector_3 normalFace = CGAL::Polygon_mesh_processing::compute_face_normal(facet, baseObjectPoly);
 				baseObject->alive = true;
 				auto vertice = facet->facet_begin();
 				for (int i = 0; i < 3; i++, vertice++)
 				{
-					//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
 					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
 					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
 					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
 					eboIndices.push_back(indice);
-					normals.push_back(CGAL::to_double(normal.x()));
-					normals.push_back(CGAL::to_double(normal.y()));
-					normals.push_back(CGAL::to_double(normal.z()));
+					normals.push_back(CGAL::to_double(normalFace.x()));
+					normals.push_back(CGAL::to_double(normalFace.y()));
+					normals.push_back(CGAL::to_double(normalFace.z()));
 					++indice;
 				}
 				++facet;
@@ -163,7 +160,8 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 				baseObject->loadVerticesAndIndices(eboIndices, vboPos);
 				baseObject->reload();
 				baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-				objets.push_back(baseObject);
+				baseObject->normals = normals;
+				//objets.push_back(baseObject);
 			}
 		vboPos.clear();
 		eboIndices.clear();

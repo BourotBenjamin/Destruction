@@ -68,19 +68,22 @@ struct PhysXEng
 
 	void createDebris(const std::vector<std::shared_ptr<Objet>>& debris, PxReal halfExtent, int firstIndice)
 	{
-		PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
-		
-		for (auto it = debris.begin() + firstIndice; it != debris.end() - 1; ++it)//for (PxU32 j = 0; j<size - i; j++)
+		if (debris.size() > firstIndice)
 		{
-			PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
-			
-			PxRigidDynamic* body = gPhysics->createRigidDynamic(t);
-			body->attachShape(*shape);
-			PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
-			gScene->addActor(*body);
-		}
+			PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
 		
-		shape->release();
+			for (auto it = debris.begin() + firstIndice; it != debris.end() - 1; ++it)//for (PxU32 j = 0; j<size - i; j++)
+			{
+				PxTransform t(PxVec3((*it)->position.x, (*it)->position.y, (*it)->position.z));
+			
+				PxRigidDynamic* body = gPhysics->createRigidDynamic(t);
+				body->attachShape(*shape);
+				PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+				gScene->addActor(*body);
+			}
+		
+			shape->release();
+		}
 	}
 
 	void createDebrisFit(const std::vector<std::shared_ptr<Objet>>& debris, PxReal halfExtent)
