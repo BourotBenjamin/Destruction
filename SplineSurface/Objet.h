@@ -126,8 +126,7 @@ protected:
 
 
 
-	std::vector<uint32_t> eboIndices;
-	std::vector<float> vboPos;
+	
 
 	std::vector<float> texCoords;
 
@@ -157,6 +156,12 @@ protected:
 	GLuint randomTex;
 
 public:
+
+	std::vector<uint32_t> eboIndices;
+	std::vector<float> vboPos;
+
+	Point circum;
+
 	// transform
 	Point position;
 	Point rotation;

@@ -155,7 +155,7 @@ public:
 	void eventWrapper(QEvent * e){ event(e); }
 	void updateWidget(float deltaTime);
 	void MyGLWidget::createPyramid();
-
+	bool advance(PxReal dt);
 //private slots:
 //void createBezier() { listCourbes.push_back(std::shared_ptr<Bezier>(new Bezier("courbeVertex.vs", "courbeFragment.fs"))); repaint(); }
 //void createSpline() { listCourbes.push_back(std::shared_ptr<Spline>(new Spline("courbeVertex.vs", "courbeFragment.fs"))); repaint(); }

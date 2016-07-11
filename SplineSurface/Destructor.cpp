@@ -55,6 +55,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 			{
 				auto center = tetra->circumcenter();
 				triangulationPoly.clear();
+
 				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
 				float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
 				auto verticeTr = triangulationPoly.vertices_begin();
@@ -72,6 +73,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 				std::vector<float> normals;
 				Objet* o = new Objet();
 				o->alive = true;
+				o->circum = Point(CGAL::to_double(tetra->circumcenter().x()), CGAL::to_double(tetra->circumcenter().y()), CGAL::to_double(tetra->circumcenter().z()));
 				int indice = 0;
 				auto facet = triangulationPoly.facets_begin();
 				while (facet != triangulationPoly.facets_end())
