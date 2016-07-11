@@ -135,6 +135,8 @@ protected:
 	void mouseReleaseEvent(QMouseEvent * e);
 	void resizeEvent(QResizeEvent *e);
 	bool event(QEvent *e);
+	Objet* pyramid;
+	Polyhedron_3* pyramidPoly;
 	
 
 public:
@@ -152,6 +154,7 @@ public:
 	}
 	void eventWrapper(QEvent * e){ event(e); }
 	void updateWidget(float deltaTime);
+	void MyGLWidget::createPyramid();
 
 //private slots:
 //void createBezier() { listCourbes.push_back(std::shared_ptr<Bezier>(new Bezier("courbeVertex.vs", "courbeFragment.fs"))); repaint(); }

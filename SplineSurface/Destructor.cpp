@@ -53,6 +53,7 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 			auto tetra = triangulation.finite_cells_begin();
 			while (tetra != triangulation.finite_cells_end())
 			{
+				auto center = tetra->circumcenter();
 				triangulationPoly.clear();
 				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
 				float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;

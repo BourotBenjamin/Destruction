@@ -313,6 +313,7 @@ void MyGLWidget::initializeGL()
 	face->computePointInCourbe();
 	edge->computePointInCourbe();
 	vertex->computePointInCourbe();*/
+	createPyramid();
 
 }
 
@@ -626,6 +627,8 @@ void MyGLWidget::renderScene(GLuint& program, GLuint shadowTex)
 	floor->render2(program, shadowTex, wireframe);
 	wall3->render2(program, shadowTex, wireframe);
 	wall2->render2(program, shadowTex, wireframe);
+	if (pyramid->alive)
+		pyramid->render2(program, shadowTex, wireframe);
 	for each (auto &piece in destruction)
 	{
 		if (piece->alive)
@@ -713,27 +716,55 @@ void MyGLWidget::mousePressEvent(QMouseEvent * e)
 		//std::shared_ptr<Polyhedron_3> baseObject = floor->generatePolyhedron();
 		//auto currentDestruction = destructor.generateTriangulation3D(cube, *baseObject);
 
-		K::Point_3 p1(-100.0f, -100.0f, -100.0f), 
-				p2(100.0f, -100.0f, -100.0f), 
-				p3(-1.0f, 1.0f, -1.0f), 
-				p4(100.0f, 100.0f, -100.0f),
-				p5(-1.0f, -1.0f, 1.0f), 
-				p6(100.0f, -100.0f, 100.0f), 
-				p7(-1.0f, 1.0f, 1.0f), 
-				p8(1.0f, 1.0f, 1.0f);
-		Polyhedron_3 baseObject;
-		baseObject.make_tetrahedron(p1, p2, p4, p6);
-		std::vector<std::shared_ptr<Objet>> currentDestruction;
-		//currentDestruction.reserve(365);
-		//cube->position = Point(0, 200, 0);
 		destruction.clear();
-		destructor.generateTriangulation3D(destruction, cube, baseObject);
+		destructor.generateTriangulation3D(destruction, cube, *pyramidPoly);
+		pyramid->alive = false;
 
 		//mpEngine.createStack(PxTransform(PxVec3(0, 0, 10.0f)), 10, 2.0f);
 		mpEngine.createDebris(destruction, 1.5f);
 	}
 }
 
+void MyGLWidget::createPyramid()
+{
+	pyramid = new Objet();
+	pyramidPoly = new Polyhedron_3();
+	std::vector<float> vboPos;
+	std::vector<unsigned int> eboIndices;
+	std::vector<float> texcoords;
+	std::vector<float> normals;
+	std::vector<tinyobj::material_t> materials;
+	pyramid->alive = true;
+	int indice = 0;
+	K::Point_3 p1(-100.0f, -100.0f, -100.0f),
+		p2(100.0f, -100.0f, -100.0f),
+		p4(100.0f, 100.0f, -100.0f),
+		p6(100.0f, -100.0f, 100.0f);
+	pyramidPoly->make_tetrahedron(p1, p2, p4, p6);
+	auto facet = pyramidPoly->facets_begin();
+	while (facet != pyramidPoly->facets_end())
+	{
+		K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, *pyramidPoly);
+		pyramid->alive = true;
+		auto vertice = facet->facet_begin();
+		for (int i = 0; i < 3; i++, ++vertice)
+		{
+			//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
+			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()));
+			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()));
+			vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()));
+			eboIndices.push_back(indice);
+			normals.push_back(CGAL::to_double(normal.x()));
+			normals.push_back(CGAL::to_double(normal.y()));
+			normals.push_back(CGAL::to_double(normal.z()));
+			++indice;
+		}
+		++facet;
+	}
+	pyramid->loadVerticesAndIndices(eboIndices, vboPos);
+	pyramid->reload();
+	pyramid->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+}
 
 void MyGLWidget::mouseMoveEvent(QMouseEvent * e)
 {
