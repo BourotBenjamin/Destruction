@@ -36,132 +36,135 @@ void Destructor::generateTriangulation3D(std::vector<std::shared_ptr<Objet>>& ob
 		Nef_polyhedron baseObjectNef(baseObjectPoly);
 		triangulationNef = triangulationNef.intersection(baseObjectNef);
 		triangulationNef.convert_to_Polyhedron(triangulationPoly);
-		triangulation.clear();
-		auto vertice = triangulationNef.vertices_begin();
-		while (vertice != triangulationNef.vertices_end())
+		if (!triangulationPoly.is_empty() && triangulationPoly.is_valid())
 		{
-			triangulation.insert(vertice->point());
-			++vertice;
-		}
-		auto pt3D = pts3D.begin();
-		while (pt3D != pts3D.end())
-		{
-			if (pointInside(triangulationPoly, *pt3D))
-				triangulation.insert(*pt3D);
-			++pt3D;
-		}
-		if (triangulation.is_valid())
-		{
-			auto tetra = triangulation.finite_cells_begin();
-			while (tetra != triangulation.finite_cells_end())
+			triangulation.clear();
+			auto vertice = triangulationNef.vertices_begin();
+			while (vertice != triangulationNef.vertices_end())
 			{
-				auto center = tetra->circumcenter();
-				triangulationPoly.clear();
+				triangulation.insert(vertice->point());
+				++vertice;
+			}
+			auto pt3D = pts3D.begin();
+			while (pt3D != pts3D.end())
+			{
+				if (pointInside(triangulationPoly, *pt3D))
+					triangulation.insert(*pt3D);
+				++pt3D;
+			}
+			if (triangulation.is_valid())
+			{
+				auto tetra = triangulation.finite_cells_begin();
+				while (tetra != triangulation.finite_cells_end())
+				{
+					auto center = tetra->circumcenter();
+					triangulationPoly.clear();
 
-				triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
-				float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
-				auto verticeTr = triangulationPoly.vertices_begin();
-				while (verticeTr != triangulationPoly.vertices_end())
-				{
-					posX += CGAL::to_double(verticeTr->point().x());
-					posY += CGAL::to_double(verticeTr->point().y());
-					posZ += CGAL::to_double(verticeTr->point().z());
-					nbVertices += 1.0f;
-					++verticeTr;
-				}
-				posX /= nbVertices;
-				posY /= nbVertices;
-				posZ /= nbVertices;
-				std::vector<float> normals;
-				Objet* o = new Objet();
-				o->alive = true;
-				o->circum = Point(CGAL::to_double(tetra->circumcenter().x()), CGAL::to_double(tetra->circumcenter().y()), CGAL::to_double(tetra->circumcenter().z()));
-				int indice = 0;
-				auto facet = triangulationPoly.facets_begin();
-				while (facet != triangulationPoly.facets_end())
-				{
-					K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
-					o->alive = true;
-					auto vertice = facet->facet_begin();
-					for (int i = 0; i < 3; i++, ++vertice)
+					triangulationPoly.make_tetrahedron(tetra->vertex(0)->point(), tetra->vertex(1)->point(), tetra->vertex(2)->point(), tetra->vertex(3)->point());
+					float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
+					auto verticeTr = triangulationPoly.vertices_begin();
+					while (verticeTr != triangulationPoly.vertices_end())
 					{
-						//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
-						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
-						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
-						vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
-						eboIndices.push_back(indice);
-						normals.push_back(CGAL::to_double(normal.x()));
-						normals.push_back(CGAL::to_double(normal.y()));
-						normals.push_back(CGAL::to_double(normal.z()));
-						++indice;
+						posX += CGAL::to_double(verticeTr->point().x());
+						posY += CGAL::to_double(verticeTr->point().y());
+						posZ += CGAL::to_double(verticeTr->point().z());
+						nbVertices += 1.0f;
+						++verticeTr;
 					}
-					++facet;
+					posX /= nbVertices;
+					posY /= nbVertices;
+					posZ /= nbVertices;
+					std::vector<float> normals;
+					Objet* o = new Objet();
+					o->alive = true;
+					o->circum = Point(CGAL::to_double(tetra->circumcenter().x()), CGAL::to_double(tetra->circumcenter().y()), CGAL::to_double(tetra->circumcenter().z()));
+					int indice = 0;
+					auto facet = triangulationPoly.facets_begin();
+					while (facet != triangulationPoly.facets_end())
+					{
+						K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
+						o->alive = true;
+						auto vertice = facet->facet_begin();
+						for (int i = 0; i < 3; i++, ++vertice)
+						{
+							//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
+							vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
+							vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
+							vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
+							eboIndices.push_back(indice);
+							normals.push_back(CGAL::to_double(normal.x()));
+							normals.push_back(CGAL::to_double(normal.y()));
+							normals.push_back(CGAL::to_double(normal.z()));
+							++indice;
+						}
+						++facet;
+					}
+					o->loadVerticesAndIndices(eboIndices, vboPos);
+					o->reload();
+					o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+					o->position.x = posX;
+					o->position.y = posY;
+					o->position.z = posZ;
+					o->rotation = baseObject->rotation;
+					objets.push_back(std::shared_ptr<Objet>(o));
+
+					vboPos.clear();
+					eboIndices.clear();
+					normals.clear();
+					++tetra;
 				}
-				o->loadVerticesAndIndices(eboIndices, vboPos);
-				o->reload();
-				o->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-				o->position.x = posX;
-				o->position.y = posY;
-				o->position.z = posZ;
-				o->rotation = baseObject->rotation;
-				objets.push_back(std::shared_ptr<Objet>(o));
-
-				vboPos.clear();
-				eboIndices.clear();
-				normals.clear();
-				++tetra;
 			}
 		}
-		Polyhedron_3 polyTetra;
-		baseObjectNef -= triangulationNef;
-		int indice = 0;
-		baseObject->alive = false;
-		baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
-		float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
-		auto verticeP = baseObjectPoly.vertices_begin();
-		while (verticeP != baseObjectPoly.vertices_end())
-		{
-			posX += CGAL::to_double(verticeP->point().x());
-			posY += CGAL::to_double(verticeP->point().y());
-			posZ += CGAL::to_double(verticeP->point().z());
-			nbVertices += 1.0f;
-			++verticeP;
-		}
-		posX /= nbVertices;
-		posY /= nbVertices;
-		posZ /= nbVertices;
-		auto facet = baseObjectPoly.facets_begin();
-		while (facet != baseObjectPoly.facets_end())
-		{
-			K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
-			baseObject->alive = true;
-			auto vertice = facet->facet_begin();
-			for (int i = 0; i < 3; i++, vertice++)
+			Polyhedron_3 polyTetra;
+			baseObjectNef -= triangulationNef;
+			int indice = 0;
+			baseObject->alive = false;
+			baseObjectNef.convert_to_Polyhedron(baseObjectPoly);
+			float posX = 0.0f, posY = 0.0f, posZ = 0.0f, nbVertices = 0.0f;
+			auto verticeP = baseObjectPoly.vertices_begin();
+			while (verticeP != baseObjectPoly.vertices_end())
 			{
-				//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
-				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
-				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
-				vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
-				eboIndices.push_back(indice);
-				normals.push_back(CGAL::to_double(normal.x()));
-				normals.push_back(CGAL::to_double(normal.y()));
-				normals.push_back(CGAL::to_double(normal.z()));
-				++indice;
+				posX += CGAL::to_double(verticeP->point().x());
+				posY += CGAL::to_double(verticeP->point().y());
+				posZ += CGAL::to_double(verticeP->point().z());
+				nbVertices += 1.0f;
+				++verticeP;
 			}
-			++facet;
-		}
+			posX /= nbVertices;
+			posY /= nbVertices;
+			posZ /= nbVertices;
+			auto facet = baseObjectPoly.facets_begin();
+			while (facet != baseObjectPoly.facets_end())
+			{
+				K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_face_normal(facet, triangulationPoly);
+				baseObject->alive = true;
+				auto vertice = facet->facet_begin();
+				for (int i = 0; i < 3; i++, vertice++)
+				{
+					//K::Vector_3 normal = CGAL::Polygon_mesh_processing::compute_vertex_normal(vertice->vertex(), triangulationPoly);
+					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().x()) - posX);
+					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().y()) - posY);
+					vboPos.push_back(CGAL::to_double(vertice->vertex()->point().z()) - posZ);
+					eboIndices.push_back(indice);
+					normals.push_back(CGAL::to_double(normal.x()));
+					normals.push_back(CGAL::to_double(normal.y()));
+					normals.push_back(CGAL::to_double(normal.z()));
+					++indice;
+				}
+				++facet;
+			}
 
 
-		if (baseObject->alive)
-		{
-			baseObject->position.x = posX;
-			baseObject->position.y = posY;
-			baseObject->position.z = posZ;
-			baseObject->loadVerticesAndIndices(eboIndices, vboPos);
-			baseObject->reload();
-			baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
-			objets.push_back(baseObject);
-		}
+			if (baseObject->alive)
+			{
+				baseObject->position.x = posX;
+				baseObject->position.y = posY;
+				baseObject->position.z = posZ;
+				baseObject->loadVerticesAndIndices(eboIndices, vboPos);
+				baseObject->reload();
+				baseObject->LoadByDatas(eboIndices, vboPos, normals, texcoords, std::string(""), materials, true);
+				objets.push_back(baseObject);
+			}
 		vboPos.clear();
 		eboIndices.clear();
 		normals.clear();
